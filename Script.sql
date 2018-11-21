@@ -79,3 +79,33 @@ INSERT INTO Funcionario
         (5,'Usain Bolt',45,'M','Personal Trainner',5,5),
         (6,'Joseph Goebbels',25,'M','Nutricionista',6,6);
         
+INSERT INTO servico
+	(idServico,Descricao,Preco)
+    VALUES
+		(1,'Natação,Passe diario',5),
+        (2,'Natação,Passe mensal',30),
+        (3,'Ginasio,Passe diario sem acompanhamento',3),
+		(4,'Ginasio,Passe mensal sem acompanhamento',25),
+        (5,'Ginasio, Passe mensal com PT',120),
+        (6,'Nutrição,2x mês',50),
+        (7,'Nutricão, ida única', 30),
+        (8,'Sauna,Passe mensal',30),
+        (9,'Sauna, Passe diario',3);
+        
+INSERT INTO funcionarioservico
+	(idServico,idFuncionario,DataInicio)
+    VALUES
+		(1,3,'2018/04/20'),
+        (6,6,'2018/01/20'),
+        (5,5,'2017/12/20');
+        
+        
+        
+        
+INSERT INTO subscreve
+	(idCliente,idServico,DataInicio)
+    VALUES
+		(1,1,'2018/04/20'),
+        (1,7,'2018/04/20'),
+        (1,9,'2018/04/20'),
+        (2,2,'2018/05/21');
