@@ -1,4 +1,4 @@
-USE Ginasio;
+USE GinasioMiguel;
 
 INSERT INTO contacto
 	(idContacto,NrTelemovel,NrTelemovel2,Email)
@@ -78,4 +78,4 @@ INSERT INTO Funcionario
         (4,'Luigi Green Mario',45,'M','Empregado de Limpeza',4,4),
         (5,'Usain Bolt',45,'M','Personal Trainner',5,5),
         (6,'Joseph Goebbels',25,'M','Nutricionista',6,6);
-        
+       
