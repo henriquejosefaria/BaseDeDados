@@ -18,6 +18,6 @@ SET y=LAST_INSERT_ID();
 INSERT INTO funcionario
 	(Nome,Idade,Sexo,Cargo,idContacto,IdMorada)
     Values
-		(nome,idade,sexo,cargo,x,y);
+		(nome,idade,sexo,cargo,y,x);
 
 END
