@@ -1,4 +1,4 @@
-use GinasioMiguel;
+use Ginasio;
 
 -- Musculação -> 1
 -- Natação -> 2

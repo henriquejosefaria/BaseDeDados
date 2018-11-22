@@ -1,4 +1,4 @@
-USE GinasioMiguel;
+USE Ginasio;
 
 INSERT INTO Cliente (idCliente, Nome, Sexo, Idade, idContacto, idMorada, IMC, Peso, Altura,NumeroContribuinte,LimitacoesFisicas )
  VALUES (1 ,"João Paulo Silva Freitas","M", 20, 1, 1,23.2 , 80.7, 1.86, 384968373,null),
