@@ -82,7 +82,9 @@ INSERT INTO contactofuncionario
         (3,92765178,NULL,'fidelcastro@hotmail.com'),
         (4,96987995,NULL,'greenmario@gmail.com'),
         (5,93759276,NULL,'fastestmanalive@outlook.com'),
-        (6,916666667,917666444,'joseph@gmail.com');
+        (6,916666667,917666444,'joseph@gmail.com'),
+        (7,967541943,NULL,'JafarAfricans@outlook.com'),
+        (8,967541324,NULL,'move-itmove-it@outlook.com');
         
 INSERT INTO moradafuncionario
 	(idMorada,Rua,Localidade,codigoPostal)
@@ -92,9 +94,10 @@ INSERT INTO moradafuncionario
         (3,'Escudeiros','Escudeiros','4705-473'),
         (4,'Travessa 13 de Maio','Vimieiro','4705-748'),
         (5,'Rua 5 de Julho','Celeirós','4705-730'),
-        (6,'Rua 5 de Outubro','São Paio Merelim','4700-020');
-        
-        
+        (6,'Rua 5 de Outubro','São Paio Merelim','4700-020'),
+        (7,'Rua de Vera Cruz','Gualtar','4710-045'),
+        (8,'Rua da Palmeira','Gualtar','4710-143');
+    
 INSERT INTO Funcionario
 	(idFuncionario,Nome,Idade,Sexo,Cargo,idContacto,idMorada)
     VALUES
@@ -103,7 +106,9 @@ INSERT INTO Funcionario
         (3,'Fidel Castro',55,'M','Professor de Natação',3,3),
         (4,'Luigi Green Mario',45,'M','Empregado de Limpeza',4,4),
         (5,'Usain Bolt',45,'M','Personal Trainner',5,5),
-        (6,'Joseph Goebbels',25,'M','Nutricionista',6,6);
+        (6,'Joseph Goebbels',25,'M','Nutricionista',6,6),
+		(7,'Jafar Strogonof',31,'M','Rececionista',7,7),
+        (8,'King Julian Move-it Move-it',26,'M','Rececionista',8,8);
         
 INSERT INTO servico
 	(idServico,Descricao,Preco)
