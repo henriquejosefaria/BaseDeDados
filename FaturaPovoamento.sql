@@ -25,4 +25,4 @@ INSERT INTO Fatura (idFatura,ContribuinteGinasio ,Data,Descricao,Valor,idFuncion
 
 
  -- // Maneira de apagar tabela toda// --
--- DELETE FROM Fatura WHERE idFatura != 387
+--  DELETE FROM Fatura WHERE idFatura != 387;
