@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Remove Cliente`(in clienteID INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `RemoveCliente`(in clienteID INT)
 BEGIN
 	DELETE FROM cliente
 		where idcliente = clienteID;

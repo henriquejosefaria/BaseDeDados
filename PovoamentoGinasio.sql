@@ -1,5 +1,4 @@
 USE Ginasio;
-ALTER DATABASE ginasio CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 INSERT INTO contacto
 	(NrTelemovel,NrTelemovel2,Email)

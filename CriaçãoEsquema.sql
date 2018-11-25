@@ -9,7 +9,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema Ginasio
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `Ginasio` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `Ginasio` DEFAULT CHARACTER SET utf8mb4 ;
 USE `Ginasio` ;
 
 -- -----------------------------------------------------
@@ -191,13 +191,13 @@ CREATE TABLE IF NOT EXISTS `Ginasio`.`PrestaServico` (
   CONSTRAINT `fk_PrestaServico_Servico1`
     FOREIGN KEY (`idServico`)
     REFERENCES `Ginasio`.`Servico` (`idServico`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_PrestaServico_Funcionario1`
     FOREIGN KEY (`idFuncionario`)
     REFERENCES `Ginasio`.`Funcionario` (`idFuncionario`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -261,8 +261,8 @@ CREATE TABLE IF NOT EXISTS `Ginasio`.`ServicoFatura` (
   CONSTRAINT `fk_ServicoFatura_Servico1`
     FOREIGN KEY (`idServico`)
     REFERENCES `Ginasio`.`Servico` (`idServico`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -283,8 +283,8 @@ CREATE TABLE IF NOT EXISTS `Ginasio`.`Subscreve` (
   CONSTRAINT `fk_Subscreve_Servico1`
     FOREIGN KEY (`IdServico`)
     REFERENCES `Ginasio`.`Servico` (`idServico`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
