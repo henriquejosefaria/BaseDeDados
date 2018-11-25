@@ -173,15 +173,7 @@ INSERT INTO Exercicio
 		(21,'Arnold Press','Ombros'),
 		(22,'Corrida','Cardio');
         
-INSERT INTO planoexercicios
-	(Cliente,Exercicio,nSeries,nRepeticoes)
-    VALUES
-		(1,3,15,3),
-        (2,3,15,3),
-        (5,3,10,3),
-        (1,2,15,3),
-        (1,5,12,3);
-        
+
         
 INSERT INTO prestaservico
 	(idServico,idFuncionario,DataInicio)
@@ -196,7 +188,7 @@ INSERT INTO prestaservico
         
         
 INSERT INTO subscreve
-	(idCliente,idServico,DataInicio)
+	(idCliente,idServico,DataSubscricao)
     VALUES
 		(1,2,'2018/04/20'),
         (1,7,'2018/04/20'),
@@ -288,7 +280,89 @@ INSERT INTO ExercicioEquipamento
 
  -- // Maneira de apagar tabela toda// --
 -- DELETE FROM Fatura WHERE idFatura != 387
-      
+INSERT INTO PlanoExercicios (Cliente,Exercicio,nSeries,nRepeticoes)
+    VALUES  (1,1,4,10),
+                    (1,5,4,10),
+                    (1,14,4,10),
+                    (1,20,4,10),
+                    (2,2,4,10),
+                    (2,6,4,10),
+                    (2,8,4,10),
+                    (2,15,4,10),
+                    (3,2,4,10),
+                    (3,9,4,10),
+                    (3,10,4,10),
+                    (3,12,4,10),
+                    (3,21,4,10),
+                    (4,3,4,10),
+                    (4,13,4,10),
+                    (4,15,4,10),
+                    (4,18,4,10),
+                    (5,6,3,12),
+                    (5,7,3,12),
+                    (5,11,3,12),
+                    (5,18,3,12),
+                    (6,5,3,12),
+                    (6,12,3,12),
+                    (6,13,3,12),
+                    (6,17,3,12),
+                    (7,4,5,8),
+                    (7,9,5,8),
+                    (7,17,5,8),
+                    (7,22,1,1),
+                    (8,3,5,8),
+                    (8,5,5,8),
+                    (8,8,5,8),
+                    (8,13,5,8),
+                    (9,11,3,10),
+                    (9,16,3,10),
+                    (9,18,3,10),
+                    (9,20,3,10),
+                    (10,15,5,10),
+                    (10,17,5,10),
+                    (10,18,5,10),
+                    (10,21,5,12),
+                    (11,4,5,10),
+                    (11,7,5,10),
+                    (11,8,5,10),
+                    (11,14,5,10),
+                    (12,3,5,10),
+                    (12,6,5,10),
+                    (12,8,5,10),
+                    (12,12,5,8),
+                    (12,17,5,8),
+                    (13,13,4,12),
+                    (13,15,4,12),
+                    (13,17,4,12),
+                    (13,19,4,12),
+                    (14,1,3,13),
+                    (14,11,3,13),
+                    (14,14,3,13),
+                    (14,16,3,13),
+                    (15,2,3,8),
+                    (15,6,3,8),
+                    (15,9,3,8),
+                    (15,13,3,8),
+                    (16,5,3,15),
+                    (16,10,3,15),
+                    (16,15,3,15),
+                    (16,20,3,15),
+                    (17,1,3,12),
+                    (17,4,3,12),
+                    (17,7,3,12),
+                    (17,10,3,12),
+                    (18,13,5,9),
+                    (18,14,5,9),
+                    (18,17,5,9),
+                    (18,18,5,9),
+                    (19,2,5,9),
+                    (19,3,5,9),
+                    (19,6,5,9),
+                    (19,9,5,9),
+                    (20,12,4,10),
+                    (20,16,4,10),
+                    (20,20,4,10),
+                    (20,22,1,1);      
         
 
 INSERT INTO servicofatura
@@ -327,5 +401,16 @@ INSERT INTO servicofatura
         (19,2),
         (19,5),
         (20,4);
+
+CREATE USER 'Jafar Strogonof'@'localhost' IDENTIFIED BY 'Jafar';
+
+CREATE USER 'King Julian Move-it Move-it'@'localhost' IDENTIFIED BY 'Julian';
+
+GRANT DELETE,INSERT,UPDATE,EXECUTE, SHOW VIEW ON Ginasio.* TO 'Jafar Strogonof'@'localhost';
+
+
+GRANT DELETE,INSERT,UPDATE,EXECUTE, SHOW VIEW ON Ginasio.* TO 'King Julian Move-it Move-it'@'localhost';
+
+
 
 
