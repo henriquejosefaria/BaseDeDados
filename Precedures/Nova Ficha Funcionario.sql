@@ -2,7 +2,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Criação da Ficha de novo Funciona
 BEGIN
 DECLARE x INT;
 DECLARE y INT;
-
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+   BEGIN
+      ROLLBACK;
+      RESIGNAL;
+   END;
+   START TRANSACTION;
 INSERT INTO moradafuncionario
 	(Rua,Localidade,codigoPostal)
     VALUES
@@ -19,5 +24,5 @@ INSERT INTO funcionario
 	(Nome,Idade,Sexo,Cargo,idContacto,IdMorada)
     Values
 		(nome,idade,sexo,cargo,y,x);
-
+COMMIT;
 END
