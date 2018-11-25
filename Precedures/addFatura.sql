@@ -8,21 +8,29 @@ BEGIN
    START TRANSACTION;
    INSERT INTO Fatura (ContribuinteGinasio,Data,Descricao,Valor,idCliente,Desconto,idFuncionario)
         VALUES (ContribuinteGinasio,NOW(),Descricao,Valor,idCliente,Desconto,idFuncionario);
-       IF S1 != 0
+   IF S1 != 0
         THEN INSERT INTO ServicoFatura (idFatura,idServico)
         VALUE(idFatura,S1);
-	  END IF;
-      IF S2 != 0
+        INSERT INTO Subscreve (idCliente,idServico,DataInicio)
+        VALUE(idCliente,S1,NOW());
+   END IF;
+   F S2 != 0
         THEN INSERT INTO ServicoFatura (idFatura,idServico)
         VALUE(idFatura,S2);
-	  END IF;
-      IF S3 != 0
+        INSERT INTO Subscreve (idCliente,idServico,DataInicio)
+        VALUE(idCliente,S2,NOW());
+   END IF; 
+   IF S3 != 0
         THEN INSERT INTO ServicoFatura (idFatura,idServico)
         VALUE(idFatura,S3);
-	  END IF;
-      IF S4 != 0
+        INSERT INTO Subscreve (idCliente,idServico,DataInicio)
+        VALUE(idCliente,S3,NOW());
+   END IF;
+   IF S4 != 0
         THEN INSERT INTO ServicoFatura (idFatura,idServico)
         VALUE(idFatura,S4);
-	  END IF;
+        INSERT INTO Subscreve (idCliente,idServico,DataInicio)
+        VALUE(idCliente,S4,NOW());
+   END IF;
   COMMIT;
 END
