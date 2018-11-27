@@ -1,0 +1,99 @@
+\chapter{Levantamento e análise de requisitos}
+
+\section{Métodos de levantamento e de análise de requisitos adotados}
+
+Durante a fase de coleta de requisitos do sistema foram usadas diversas técnicas, como a consulta de documentos utilizados (memorandos, emails, queixas de empregados face ao sistema e criticas/avaliação da performance do sistema), para perceber a origem da necessidade de uma base de dados. O dono, futuro administrador da base de dados, listou as funções que acha necessárias e deu o seu parecer acerca do funcionamento normal do ginásio. Foram realizadas entrevistas adicionais com os funcionários do estabelecimento para verificação dos requisitos já identificados, bem como clarificação dos mesmos e possíveis adições de novos requisitos que fossem de encontro às necessidades destes. Por fim, a equipa de levantamento de requisitos procedeu à coleta de dados por observação do normal funcionamento do ginásio através do sistema de vigilância, visto que o facto de um funcionário saber que está a ser observado pode interferir na forma como uma atividade é executada, e como clientes, de modo a ter uma perceção de como a base de dados poderia influenciar a experiência de um cliente.
+
+
+\section{Requisitos Levantados}
+
+\subsection{Requisitos de Descrição}
+
+Os requisitos de descrição necessários á base de dados recolhidos pela equipa foram :
+
+\begin{enumerate}
+    \item  É necessário guardar o nome,sexo,idade, Serviço Prestado, contacto,email e Morada do funcionário. 
+    \item Um Serviço é constituído por um nome e pelo respetivo preço.
+    \item Temos de guardar todos os dados pessoais do cliente(nome, sexo,idade,contacto,email,morada,Número de Contribuinte) e \textit{IMC}, Peso, Altura, e Limitações Físicas.
+    \item Os exercícios são compostos pelo seu tipo e nome associado ao mesmo.
+    \item O equipamento tem nome e um propósito. 
+    \item A fatura é composta pelo numero de contribuinte empresa, data de emissão, descrição, valor, número contribuinte do cliente, serviço prestado.
+    
+\item O cliente tem um conjunto de  de exercícios,que formam um plano de exercícios.
+
+\item O plano de exercícios é composto pelo número de repetições e número de series.
+
+\item O Cliente antes de ter acesso aos serviços fornecidos no ginásio tem de se registar nos mesmos,registando a data de subscrição.
+
+\item O ginásio tem de ter a funcionalidade de emitir fatura dos serviços fornecidos ao cliente.
+
+\item Após a subscrição de um ou vários serviços, é submetida uma fatura desses serviços, sendo necessário guardar essas relações para futura consulta.
+
+\item Existem funcionários a fornecer serviços específicos.
+
+\item Deve ser registado o momento em que o funcionário se torna responsável pela prestação do serviço.
+
+
+\item O cliente tem sempre exercícios, a menos q este se subscreva a um serviço de natação ou a um serviço de nutrição, e estes últimos são sempre diferentes de pessoa para pessoa.
+
+\item Para todo o exercício existe também um equipamento adequado para a sua execução.
+\par
+\end{enumerate}
+\subsection{Requisitos de Exploração}
+\label{subsec:requisitos}
+Após a verificação das necessidades dos funcionários e do responsável do ginásio para permitir um bom funcionamento deste, chegamos às seguintes conclusões:
+
+\begin{enumerate} 
+    \item Terá de ser possível ao responsável do ginásio adicionar um funcionário.
+    \item Terá também  de ser possível ao administrador do ginásio alterar a informação relativa a um funcionário;
+    \item Para posterior confirmação dos updates ou adições referentes ao funcionário o administrador deverá poder visualizar o conteúdo da tabela dos funcionários.
+    \item Tem de ser possível visualizar que serviços são prestados por que funcionários. 
+    \item O responsável do ginásio poderá também consultar os serviços fornecidos pelo ginásio.
+    \item Outra das funções do administrador do ginásio será adicionar novos serviços que poderão vir a ser disponibilizados aos clientes.
+    \item Este terá também a obrigação de marcar como não disponíveis os serviços que entretanto forem descontinuados ou os quais o ginásio já não suporte.
+    \item Terá de ser possível ao funcionário registar um novo cliente;
+    \item Existe a necessidade de aceder à ficha do cliente pelo número de utilizador.
+    \item Também deverá ser possível aceder á ficha do cliente através do seu número de telefone, caso este não saiba o seu idCliente;
+    \item Terá de ser possível ao funcionário consultar os exercícios de um cliente.
+    \item O funcionário deverá ter permissões para adicionar novos exercícios a um cliente.
+    \item Para além disso terá de ser também disponibilizada forma de apagar os exercícios associados a um cliente do seu plano de treinos;
+    \item Deverá ser possível a consulta de todas as faturas emitidas pelo ginásio relativas a um cliente.
+    \item A consulta de faturas entre  duas datas específicas será também uma funcionalidade presente na base de dados;
+    \item Ao funcionário reserva-se o dever de emitir faturas.
+    \item Ao funcionário reserva-se também o dever de marcar uma fatura como inválida sempre que esta for mal inserida no sistema.
+    \item O responsável reserva-se o dever de ter acesso ao total faturado num determinado período de tempo ou durante todo o tempo de vida do ginásio.
+    \item Cabe ao funcionário designar qual o equipamento a ser utilizado num determinado exercício no momento da inserção deste na base de dados.
+    \item Quer o administrador quer os rececionistas devem poder ver que serviços foram registados em cada fatura.
+    \item Os funcionários devem poder também ver quais as subscrições dos clientes.
+    \item No ginásio é requerida a necessidade de poder adicionar novos equipamentos, isto poderá ser feito quer pelos funcionários quer pelo administrador do ginásio.
+    \item Um funcionário pode decidir adicionar um novo exercício aos atualmente disponíveis para os clientes.
+    \item O administrador será responsável por referenciar que funcionários executam que serviço.
+\end{enumerate}
+
+
+\subsection{Requisitos de Controlo}
+
+\begin{enumerate}
+\item Horário de acesso:\par
+Tanto o administrador como os funcionários podem aceder à base de dados durante o horário de funcionamento do ginásio, das 8 da manhã até á meia noite.
+\item Funcionários, fornecedores e Serviços:\par
+Apenas o administrador poderá consultar, adicionar ou remover dados referentes a estas entidades.
+\item Cliente:\par
+Um funcionário tem total acesso ao cliente podendo adicionar, remover ou modificar os dados de um cliente.
+\item Equipamento:\par
+Tanto o funcionário como o administrador podem alterar os dados referentes a um equipamento.
+\item Exercícios:\par
+Apenas o funcionário poderá adicionar, modificar ou remover um exercício.
+\item Faturas:\par
+Tanto o administrador como o funcionário podem consultar e alterar as faturas. Mas apenas um administrador pode remover uma.
+
+\end{enumerate}
+
+\section{Análise geral dos Requisitos}
+
+Para esta base de dados realizou-se uma combinação das visões do administrador, dos funcionários e dos clientes utilizando a  \textit{Centralized aproach} pois o sistema a modelar não é muito complexo e as vistas dos utilizadores sobrepõem-se em vários aspetos. (Apesar dos clientes não operarem sobre a base de dados é importante saber as suas necessidades como obter a lista de exercícios correspondentes ao seu plano de treino)
+\newline
+\par
+Ao realizar uma análise mais profunda dos requisitos podemos inferir que o principal interveniente do sistema é o funcionário visto que este lida com os dados dos clientes, exercícios, faturas e equipamentos do ginásio.
+Podemos também verificar que a entidade central é o Cliente pois este realiza exercícios, subscreve um ou mais serviços e paga pelos mesmos.
+

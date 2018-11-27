@@ -1,0 +1,57 @@
+\section{Validação do modelo com as transações estabelecidas}
+\label{transacoes}
+
+As seguintes transações proveem da secção \ref{subsec:requisitos}, composta por interrogações e transações. Iremos validar estas transações verificando que toda a informação necessária à sua realização (entidades, atributos e relacionamentos) está presente no modelo. As interrogações foram validadas na secção \ref{interrogacoes}.
+
+
+\noindent
+\\\textbf{Terá de ser possível ao responsável do ginásio adicionar um funcionário}
+\\ A entidade Funcionário, que representa os funcionários e os seus dados, existe no modelo, pelo que é possível adicionar funcionários à BD.
+
+\noindent
+\\\textbf{Terá também  de ser possível ao administrador do ginásio alterar a informação relativa a um funcionário}
+\\ É possível, por consequência direta da existência da entidade Funcionário.
+
+\noindent
+\\\textbf{Outra das funções do administrador do ginásio será adicionar novos serviços que poderão vir a ser disponibilizados aos clientes}
+\\ A entidade Serviços, que representa os serviços oferecidos pelo ginásio, existe, pelo que esta transação é válida.
+
+\noindent
+\\\textbf{Este terá também a obrigação de marcar como não disponíveis os serviços que entretanto forem descontinuados ou os quais o ginásio já não suporte}
+\\  A entidade Serviços, que representa os serviços oferecidos pelo ginásio, existe, e contém o atributo Estado, que representa os serviços ativos ou descontinuados. Portanto, a transação é válida.
+
+\noindent
+\\\textbf{Terá de ser possível ao funcionário registar um novo cliente}
+\\ A entidade Cliente, que representa os clientes e os seus dados, existe no modelo, pelo que é possível adicionar clientes à BD.
+
+\noindent
+\\\textbf{O funcionário deverá ter permissões para adicionar novos exercícios a um cliente}
+\\ As entidades Cliente e Exercício representam, respetivamente, os clientes (e os seus dados) e os exercícios (e os seus dados) e estão ligadas pelo relacionamento binário \emph{Plano Exercícios}, pelo que é possível associar exercícios a um cliente.
+
+\noindent
+\\\textbf{Para além disso terá de ser também disponibilizada forma de apagar os exercícios associados a um cliente do seu plano de treinos}
+\\ É possível, como consequência direta da transação anterior ser válida.
+
+\noindent
+\\\textbf{Ao funcionário reserva-se o dever de emitir faturas}
+\\ No modelo existe a entidade Fatura, que representa as faturas emitidas pelo ginásio. Portanto, a emissão de faturas é possível.
+
+\noindent
+\\\textbf{Ao funcionário reserva-se também o dever de marcar uma fatura como inválida sempre que esta for mal inserida no sistema}
+\\ A entidade Fatura tem o atributo Estado, que guarda se a fatura é válida ou não. Portanto, esta transação é válida.
+
+\noindent
+\\\textbf{Cabe ao funcionário designar qual o equipamento a ser utilizado num determinado exercício no momento da inserção deste na base de dados}
+\\ As entidades Exercício e Equipamento, que representam os exercícios e os equipamentos disponibilizados pelo ginásio, existem no modelo. Utilizando o relacionamento \emph{Equipamento É Utilizado Para Exercício}, é possível associar equipamentos a exercícios. A transação é válida
+
+\noindent
+\\\textbf{No ginásio é requerida a necessidade de poder adicionar novos equipamentos}
+\\ A transação é válida, pois a entidade Equipamento representa os equipamentos disponíveis no ginásio, pelo que é possível serem adicionados mais.
+
+\noindent
+\\\textbf{Um funcionário pode decidir adicionar um novo exercício aos atualmente disponíveis para os clientes}
+\\ A transação é válida, pois a entidade Exercício representa os exercícios disponibilizados pelo ginásio, pelo que é possível serem adicionados mais.
+
+\noindent
+\\\textbf{O administrador será responsável por referenciar que funcionários executam que serviço}
+\\ As entidades Funcionário e Serviço, que representam os funcionários do ginásio e os serviços oferecidos, existem no modelo, e, utilizando o relacionamento \emph{Serviço É Prestado Por Funcionário}, é possível associar um serviço a um funcionário, pelo que a transação é válida.

@@ -1,0 +1,48 @@
+\section{Validação do modelo com interrogações do utilizador}
+\label{interrogacoes}
+
+As seguintes interrogações proveem da secção \ref{subsec:requisitos}, composta por interrogações e transações. Iremos validar estas interrogações verificando que toda a informação necessária à sua realização (entidades, atributos e relacionamentos) está presente no modelo. As transações serão validadas na secção \ref{transacoes}.
+
+\noindent
+\\\textbf{Tem de ser possível visualizar que serviços são prestados por que funcionários.}
+\\ As entidades Serviço e Funcionário, que compreendem os detalhes dos serviços e dos funcionários, respetivamente, estão representadas no modelo. Podemos usar o relacionamento \emph{Serviço É Prestado Por Funcionário} para extrair a informação requerida.
+
+\noindent
+\\\textbf{O responsável do ginásio poderá também consultar os serviços fornecidos pelo ginásio}
+\\ $ \pi_{Designacao} (Servico) $
+
+\noindent
+\\\textbf{Para posterior confirmação dos updates ou adições referentes ao funcionário, o administrador deverá poder visualizar o conteúdo da tabela dos funcionários}
+\\ $ \pi (Funcionario) $
+
+\noindent
+\\\textbf{Existe a necessidade de aceder à ficha do cliente pelo número de utilizador}
+\\ A entidade Cliente representa os dados do cliente, que tem um número de utilizador único (o atributo ClienteID), logo a operação é possível.
+
+\noindent
+\\\textbf{Também deverá ser possível aceder à ficha do cliente através do seu número de telefone, caso este não saiba o seu idCliente}
+\\ A entidade Cliente representa os dados do cliente e os contactos dos clientes estão representados na relação Contacto. A entidade Cliente tem como uma \emph{Foreign Key} o identificador do contacto do cliente na tabela Contacto, pelo que é possível associar a um cliente ao seu número de telefone e, assim, aceder aos dados do cliente a partir deste.
+
+\noindent
+\\\textbf{Terá de ser possível ao funcionário consultar os exercícios de um cliente}
+\\ A entidade Cliente representa os dados do cliente e a entidade Exercício representa os exercícios no modelo lógico. Utilizando o relacionamento \emph{Plano Exercícios}, é possível consultar a informação requerida.
+
+\noindent
+\\\textbf{Deverá ser possível a consulta de todas as faturas emitidas pelo ginásio relativas a um cliente}
+\\ As entidades Cliente e Fatura representam, respetivamente, os clientes (e os seus dados) e as faturas (e os seus dados). Utilizando o relacionamento \emph{Cliente Tem Fatura}, podemos produzir a lista de todas as faturas relatias a um cliente.
+
+\noindent
+\\\textbf{A consulta de faturas entre duas datas específicas será também uma funcionalidade presente na base de dados}
+\\ A entidade Fatura, que representa as faturas no modelo lógico, tem um atributo NN \emph{Data}, que guarda a data de emissão da fatura, pelo que a operação é possível.
+
+\noindent
+\\\textbf{O responsável reserva-se o dever de ter acesso ao total faturado num determinado período de tempo ou durante todo o tempo de vida do ginásio}
+\\ A entidade Fatura, que representa as faturas no modelo lógico, tem um atributo NN \emph{Data}, que guarda a data de emissão da fatura, e um atributo NN \emph{Valor}, que guarda o valor total da fatura, portanto, a interrogação é válida.
+
+\noindent
+\\\textbf{Quer o administrador quer os rececionistas devem poder ver que serviços foram registados em cada fatura}
+\\ As entidades Serviço e Fatura representam, respetivamente, os serviços providenciados pelo ginásio e as faturas emitidas por este no modelo. Utilizando o relacionamento \emph{Serviço Constitui Fatura}, é possível visualizar a informação pretendida.
+
+\noindent
+\\\textbf{Os funcionários devem poder também ver quais as subscrições dos clientes}
+\\  As entidades Cliente e Fatura representam, respetivamente, os clientes (e os seus dados) e os serviços do ginásio. Utilizando o relacionamento \emph{Cliente Subscreve Serviço}, é possível saber quais as subscrições dos clientes.

@@ -1,0 +1,86 @@
+\section{Derivar relações para o modelo de dados lógicos}
+
+Começamos por derivar relações a partir do modelo concetual seguindo as regras adequadas, de modo a representar no modelo lógico as entidades, relacionamentos e atributos identificados previamente. Tal gerou as seguintes relações. No entanto, para as relações Cliente e Funcionário, decidimos separar os atributos compostos \emph{Contacto} e \emph{Morada} nas suas próprias relações, em vez de colocar os respetivos atributos atómicos nas relações mencionadas, de forma a facilitar a compreensão.
+
+
+\noindent
+\\\textbf{Cliente} (ClienteID,  Nome, Idade, Sexo, Peso, Altura, IMC, Limitações Físicas,  NrContribuinte, idContacto, idMorada)
+\\\textbf{Primary Key} ClienteID
+\\\textbf{Foreign Key} idContacto \textbf{references} Contacto(idContacto)
+\\\textbf{Foreign Key} idMorada \textbf{references} Morada(idMorada)
+
+\noindent
+\\\textbf{Contacto} (idContacto, Telemóvel 1, Telemóvel 2, Email)
+\\\textbf{Primary Key} idContacto
+
+\noindent
+\\\textbf{Morada} (idMorada, Rua, Localidade, CodigoPostal)
+\\\textbf{Primary Key} idMorada
+
+\noindent
+\\\textbf{Serviço} (ServiçoID, Designação, Preço)
+\\\textbf{Primary Key} ServiçoID
+
+\noindent
+\\\textbf{Fatura} (FaturaID, Contribuinte Empresa, Data, Desconto, Descrição, Valor, ClienteID, FuncionárioID)
+\\\textbf{Primary Key} FaturaID
+\\\textbf{Foreign Key} ClienteID \textbf{references} Cliente(ClienteID)
+\\\textbf{Foreign Key} FuncionárioID \textbf{references} Funcionário(FuncionárioID)
+
+\noindent
+\\\textbf{Funcionário} (FuncionárioID, Nome, Cargo, Idade, idContacto, idMorada)
+\\\textbf{Primary Key} FuncionárioID
+\\\textbf{Foreign Key} idContacto \textbf{references} ContactoFuncionario(idContacto)
+\\\textbf{Foreign Key} idMorada \textbf{references} MoradaFuncionario(idMorada)
+
+\noindent
+\\\textbf{ContactoFuncionario} (idContacto, Telemóvel 1, Telemóvel 2, Email)
+\\\textbf{Primary Key} idContacto
+
+\noindent
+\\\textbf{MoradaFuncionario} (idMorada, Rua, Localidade, CodigoPostal)
+\\\textbf{Primary Key} idMorada
+
+\noindent
+\\\textbf{Exercício} (ExercícioID, Designação, Tipo de Exercício)
+\\\textbf{Primary Key} ExercícioID
+
+\noindent
+\\\textbf{Equipamento} (EquipamentoID, Descrição, Nome)
+\\\textbf{Primary Key} EquipamentoID
+
+% *:* relationship
+\noindent
+\\\textbf{Constitui} (ServiçoID, FaturaID)
+\\\textbf{Primary Key} ServiçoID, FaturaID
+\\\textbf{Foreign Key} ServiçoID \textbf{references} Serviço(ServiçoID)
+\\\textbf{Foreign Key} FaturaID \textbf{references} Fatura(FaturaID)
+
+% *:* relationship
+\noindent
+\\\textbf{Subscreve} (ClienteID, ServiçoID, Data Subscrição)
+\\\textbf{Primary Key} ClienteID, ServiçoID
+\\\textbf{Foreign Key} ClienteID \textbf{references} Cliente(ClienteID)
+\\\textbf{Foreign Key} ServiçoID \textbf{references} Serviço(ServiçoID) 
+
+% *:* relationship
+\noindent
+\\\textbf{E prestado por} (ServiçoID, FuncionárioID, Data Início)
+\\\textbf{Primary Key} ServiçoID, FuncionárioID
+\\\textbf{Foreign Key} ServiçoID \textbf{references} Serviço(ServiçoID)
+\\\textbf{Foreign Key} FuncionárioID \textbf{references} Funcionário(FuncionárioID)
+
+% *:* relationship
+\noindent
+\\\textbf{Plano Exercícios} (ClienteID, ExercicioID, Numero de Repetições, Numero de Series)
+\\\textbf{Primary Key} ClienteID, ExercicioID
+\\\textbf{Foreign Key} ClienteID \textbf{references} Cliente(ClienteID)
+\\\textbf{Foreign Key} ExercicioID \textbf{references} Exercício(ExercicioID)
+
+% *:* relationship
+\noindent
+\\\textbf{É utilizado para} (EquipamentoID, ExercícioID)
+\\\textbf{Primary Key} EquipamentoID, ExercícioID
+\\\textbf{Foreign Key} EquipamentoID \textbf{references} Equipamento(EquipamentoID)
+\\\textbf{Foreign Key} ExercícioID \textbf{references} Exercício(ExercícioID)
+
