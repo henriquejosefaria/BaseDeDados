@@ -27,14 +27,20 @@ public class Cliente {
     
     public Document createDoc(){
         Document doc = new Document("id", id);
+        
+        BasicDBList dBlist0 = new BasicDBList();
+        for(Servico ser : servicos){
+            dBlist0.add(new BasicDBObject("nome", ser.getNome()));
+        }              
+        doc.put("servicos", dBlist0);
    
         BasicDBList dBlist1 = new BasicDBList();
         for(Exercicio ex : exercicios){
             dBlist1.add(new BasicDBObject("descricao", ex.getDescricao())
-                    .append("sets", ex.getSets())
-                    .append("reps", ex.getReps()));
+                    .append("sets", ex.getnSeries())
+                    .append("reps", ex.getnRepeticoes()));
         }              
-        doc.put("servicos", dBlist1);
+        doc.put("exercicios", dBlist1);
         
         BasicDBList dBlist2 = new BasicDBList();
         for(Fatura fat : faturas){
@@ -47,7 +53,7 @@ public class Cliente {
                     .append("funcionarioId",fat.getFuncionarioId())
                     .append("invalida",fat.getInvalida()));
         }              
-        doc.put("servicos", dBlist1);
+        doc.put("faturas", dBlist2);
         return doc;         
     }
     public void addServico(Servico servico){

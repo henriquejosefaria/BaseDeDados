@@ -5,6 +5,8 @@
  */
 package bd;
 
+import org.bson.Document;
+
 /**
  *
  * @author Filipe Universidade
@@ -17,70 +19,6 @@ public class Fatura {
     private double valor;
     private double desconto;
     private Integer funcionarioId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getContribuinteGinasio() {
-        return contribuinteGinasio;
-    }
-
-    public void setContribuinteGinasio(Integer contribuinteGinasio) {
-        this.contribuinteGinasio = contribuinteGinasio;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public double getValor() {
-        return valor;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
-    }
-
-    public double getDesconto() {
-        return desconto;
-    }
-
-    public void setDesconto(double desconto) {
-        this.desconto = desconto;
-    }
-
-    public Integer getFuncionarioId() {
-        return funcionarioId;
-    }
-
-    public void setFuncionarioId(Integer funcionarioId) {
-        this.funcionarioId = funcionarioId;
-    }
-
-    public String getInvalida() {
-        return invalida;
-    }
-
-    public void setInvalida(String invalida) {
-        this.invalida = invalida;
-    }
     private String invalida;
     
     public Fatura(Integer id, Integer contribuinteGinasio, String data, String descricao, double valor, double desconto,
@@ -93,6 +31,49 @@ public class Fatura {
         this.desconto = desconto;
         this.funcionarioId = funcionarioId;
         this.invalida = invalida;
+    }
+    public Document createDoc(){
+        Document doc = new Document("id", id)
+                .append("contribuinteGinasio", contribuinteGinasio)
+                .append("data",data)
+                .append("descricao", descricao)
+                .append("valor", valor)
+                .append("desconto",desconto)
+                .append("funcionarioId", funcionarioId)
+                .append("invalida",invalida);
+        return doc;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getContribuinteGinasio() {
+        return contribuinteGinasio;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public double getDesconto() {
+        return desconto;
+    }
+
+    public Integer getFuncionarioId() {
+        return funcionarioId;
+    }
+
+    public String getInvalida() {
+        return invalida;
     }
     
 }

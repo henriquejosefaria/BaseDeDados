@@ -31,14 +31,17 @@ public class MigrationManager {
     private Map<Integer,Funcionario> funcionarios;
     private Map<Integer,Servico> servicos;
     private Map<Integer,Cliente> clientes;
+    private Map<Integer,Exercicio> exercicios;
     private Map<Integer,Fatura> faturas;
     
     public MigrationManager() throws SQLException{
         funcionarios = new HashMap<>();
         servicos = new HashMap<>();
         clientes = new HashMap<>();
+        exercicios = new HashMap<>();
+        faturas = new HashMap<>();
         
-        String url = "jdbc:mysql://localhost:3306/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
+        String url = "jdbc:mysql://localhost:3307/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         String username = "Jafar Strogonof";
         String password = "Jafar";
         
@@ -49,24 +52,29 @@ public class MigrationManager {
         MongoClient mongoClient = new MongoClient(connectionString);
         
         MongoDatabase database = mongoClient.getDatabase("ginasio");
+        MongoCollection<Document> clientecol = database.getCollection("cliente");
         MongoCollection<Document> funcionariocol = database.getCollection("funcionario");
         MongoCollection<Document> servicocol = database.getCollection("servico");
+        MongoCollection<Document> faturacol = database.getCollection("fatura");
+        
         System.out.println("NoSQL Database connected!"); 
 
         System.out.println("Connecting to MySQL Database...");
         String query1 = "SELECT * FROM funcionario";
-        String query2 = "SELECT * FROM servico" ;
-        String query3 = "SELECT * FROM prestaservico" ;
-        String query4 = "SELECT * FROM cliente" ;
-        String query5 = "SELECT * FROM fatura" ;
-        String query6 = "SELECT * FROM fatura" ;
+        String query2 = "SELECT * FROM servico";
+        String query3 = "SELECT * FROM prestaservico";
+        String query4 = "SELECT * FROM cliente";
+        String query5 = "SELECT * FROM fatura";
+        String query6 = "SELECT * FROM subscreve";
+        String query7 = "SELECT * FROM exercicio";
+        String query8 = "SELECT * FROM planoexercicios";
         
 
         try (Connection con = DriverManager.getConnection(url, username, password)){
             PreparedStatement pstfuncionario = con.prepareStatement(query1);
             ResultSet rsfuncionario = pstfuncionario.executeQuery();
             
-            System.out.println("MySQL Database connected!");     
+            System.out.println("MySQL Database connected!");
             while (rsfuncionario.next()) {
         
                 Funcionario func = new Funcionario(rsfuncionario.getInt(1),rsfuncionario.getString(2));
@@ -93,21 +101,61 @@ public class MigrationManager {
             PreparedStatement pstCliente = con.prepareStatement(query4);
             ResultSet rsCliente = pstCliente.executeQuery();     
             while (rsCliente.next()) {
-                Cliente cliente = new Cliente(rsPServico.getInt(1));
+                Cliente cliente = new Cliente(rsCliente.getInt(1));
                 clientes.put(cliente.getId(),cliente);
             }
+            System.out.println("Clients loaded from MySQL DB: " + clientes.size());
             
+            PreparedStatement pstSubscreve = con.prepareStatement(query6);
+            ResultSet rsSubscreve = pstSubscreve.executeQuery();     
+            while (rsSubscreve.next()) {
+                Servico pservico = new Servico(rsSubscreve.getInt(2),servicos.get(rsSubscreve.getInt(2)).getNome(),null);
+                Cliente pcliente = clientes.get(rsSubscreve.getInt(1));
+                pcliente.addServico(pservico);
+            }
+            
+            PreparedStatement pstExercicio = con.prepareStatement(query7);
+            ResultSet rsExercicio = pstExercicio.executeQuery();     
+            while (rsExercicio.next()) {
+                Exercicio exercicio = new Exercicio(rsExercicio.getInt(1),rsExercicio.getString(2),null,null);
+                exercicios.put(rsExercicio.getInt(1), exercicio);
+            }
+            System.out.println("Exercicios loaded from MySQL DB: " + exercicios.size());
+
+            PreparedStatement pstPExercicio = con.prepareStatement(query8);
+            ResultSet rsPExercicio = pstPExercicio.executeQuery();     
+            while (rsPExercicio.next()) {
+                Exercicio exercicio = new Exercicio(rsPExercicio.getInt(2),exercicios.get(rsPExercicio.getInt(2)).getDescricao(),rsPExercicio.getInt(3),rsPExercicio.getInt(4));
+                clientes.get(rsPExercicio.getInt(1)).addExercicio(exercicio);
+            }
+ 
             PreparedStatement pstFatura = con.prepareStatement(query5);
-            ResultSet rsFatura = pstFatura.executeQuery();     
+            ResultSet rsFatura = pstFatura.executeQuery();    
             while (rsFatura.next()) {
                 Fatura fat = new Fatura(rsFatura.getInt(1),rsFatura.getInt(2),rsFatura.getString(3),
                         rsFatura.getString(4),rsFatura.getDouble(5),rsFatura.getDouble(7),rsFatura.getInt(8),
-                    rsFatura.getString(9));
+                    null);
                 Cliente client = clientes.get(rsFatura.getInt(6));
                 client.addFatura(fat);
-            }  
+                faturas.put(rsFatura.getInt(1),fat);
+            }
+            System.out.println("Faturas loaded from MySQL DB: " + faturas.size());
             
             int i = 0;
+            for(Cliente c : clientes.values()){
+                Document doc = c.createDoc();
+                clientecol.insertOne(doc);
+                i++;
+            }
+            
+            i=0;
+            for(Fatura fat : faturas.values()){
+                Document doc = fat.createDoc();
+                faturacol.insertOne(doc);
+                i++;
+            }
+            
+            i=0;
             for(Funcionario f : funcionarios.values()){
                 Document doc = f.createDoc();
                 funcionariocol.insertOne(doc);
