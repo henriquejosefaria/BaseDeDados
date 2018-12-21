@@ -31,13 +31,14 @@ public class MigrationManager {
     private Map<Integer,Funcionario> funcionarios;
     private Map<Integer,Servico> servicos;
     private Map<Integer,Cliente> clientes;
+    private Map<Integer,Fatura> faturas;
     
     public MigrationManager() throws SQLException{
         funcionarios = new HashMap<>();
         servicos = new HashMap<>();
         clientes = new HashMap<>();
         
-        String url = "jdbc:mysql://localhost:3307/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
+        String url = "jdbc:mysql://localhost:3306/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         String username = "Jafar Strogonof";
         String password = "Jafar";
         
@@ -56,6 +57,10 @@ public class MigrationManager {
         String query1 = "SELECT * FROM funcionario";
         String query2 = "SELECT * FROM servico" ;
         String query3 = "SELECT * FROM prestaservico" ;
+        String query4 = "SELECT * FROM cliente" ;
+        String query5 = "SELECT * FROM fatura" ;
+        String query6 = "SELECT * FROM fatura" ;
+        
 
         try (Connection con = DriverManager.getConnection(url, username, password)){
             PreparedStatement pstfuncionario = con.prepareStatement(query1);
@@ -84,6 +89,23 @@ public class MigrationManager {
                 Funcionario pfunc = funcionarios.get(rsPServico.getInt(2));
                 pfunc.addServico(pservico);
             }
+
+            PreparedStatement pstCliente = con.prepareStatement(query4);
+            ResultSet rsCliente = pstCliente.executeQuery();     
+            while (rsCliente.next()) {
+                Cliente cliente = new Cliente(rsPServico.getInt(1));
+                clientes.put(cliente.getId(),cliente);
+            }
+            
+            PreparedStatement pstFatura = con.prepareStatement(query5);
+            ResultSet rsFatura = pstFatura.executeQuery();     
+            while (rsFatura.next()) {
+                Fatura fat = new Fatura(rsFatura.getInt(1),rsFatura.getInt(2),rsFatura.getString(3),
+                        rsFatura.getString(4),rsFatura.getDouble(5),rsFatura.getDouble(7),rsFatura.getInt(8),
+                    rsFatura.getString(9));
+                Cliente client = clientes.get(rsFatura.getInt(6));
+                client.addFatura(fat);
+            }  
             
             int i = 0;
             for(Funcionario f : funcionarios.values()){
@@ -100,7 +122,7 @@ public class MigrationManager {
                 i++;
             }
             System.out.println(i+" Servicos inserted on NoSQL DB");
-            
+
         }catch (SQLException e) {
             throw new IllegalStateException("Cannot connect to the MySQL database!", e);
         }

@@ -15,9 +15,6 @@ import org.bson.Document;
  * @author Ryzon
  */
 
-//import org.bson.Document;
-//import java.util.ArrayList;
-
 /**
  *
  * @author Filipe Universidade
@@ -41,7 +38,6 @@ public void addServico(Servico servico){
 }
 public Document createDoc(){
                 Document doc = new Document("id", id)
-                .append("id", id)
                 .append("nome", nome);
    
  BasicDBList dBlist = new BasicDBList();
