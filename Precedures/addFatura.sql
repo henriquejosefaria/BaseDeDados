@@ -1,3 +1,4 @@
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addFatura`(in idFatura INT(11), in ContribuinteGinasio INT(11), in Descricao VARCHAR(300), in S1 INT(11), in S2 INT(11), in S3 INT(11), in S4 INT(11), in Valor DECIMAL(5,2), idCliente INT(11), in Desconto Double, in idFuncionario INT(11))
 BEGIN
   DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -6,15 +7,15 @@ BEGIN
       RESIGNAL;
    END;
    START TRANSACTION;
-   INSERT INTO Fatura (ContribuinteGinasio,Data,Descricao,Valor,idCliente,Desconto,idFuncionario)
-        VALUES (ContribuinteGinasio,NOW(),Descricao,Valor,idCliente,Desconto,idFuncionario);
+   INSERT INTO Fatura (ContribuinteGinasio,Data,Descricao,Valor,idCliente,Desconto,idFuncionario,Estado)
+        VALUES (ContribuinteGinasio,NOW(),Descricao,Valor,idCliente,Desconto,idFuncionario,'A');
    IF S1 != 0
         THEN INSERT INTO ServicoFatura (idFatura,idServico)
         VALUE(idFatura,S1);
         INSERT INTO Subscreve (idCliente,idServico,DataInicio)
         VALUE(idCliente,S1,NOW());
    END IF;
-   F S2 != 0
+   IF S2 != 0
         THEN INSERT INTO ServicoFatura (idFatura,idServico)
         VALUE(idFatura,S2);
         INSERT INTO Subscreve (idCliente,idServico,DataInicio)
@@ -33,4 +34,6 @@ BEGIN
         VALUE(idCliente,S4,NOW());
    END IF;
   COMMIT;
-END
+END$$
+
+DELIMITER ;

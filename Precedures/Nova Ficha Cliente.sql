@@ -1,3 +1,4 @@
+DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Nova Ficha de Cliente`(in nome VARCHAR(75),in idade INT,in sexo VARCHAR(1),in peso INT, in altura INT,in numerocontribuinte INT, in limitacoesfisicas VARCHAR(75),in telemovel1 INT, in telemovel2 INT ,email VARCHAR(75),rua VARCHAR(75),localidade VARCHAR(75),codigopostal VARCHAR(75))
 BEGIN
 DECLARE x INT;
@@ -29,4 +30,6 @@ INSERT INTO cliente
     Values
 		(nome,sexo,idade,x,y,z,peso,altura,numerocontribuinte,limitacoesfisicas);
         COMMIT;
- END
+ END$$
+ 
+ DELIMITER ;
