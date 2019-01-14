@@ -111,17 +111,17 @@ INSERT INTO Funcionario
         (8,'King Julian Move-it Move-it',26,'M','Rececionista',8,8);
         
 INSERT INTO servico
-	(idServico,Descricao,Preco)
+	(idServico,Descricao,Preco,Estado)
     VALUES
-		(1,'Natação,Passe diario',5),
-        (2,'Natação,Passe mensal',30),
-        (3,'Ginasio,Passe diario sem acompanhamento',3),
-		(4,'Ginasio,Passe mensal sem acompanhamento',25),
-        (5,'Ginasio, Passe mensal com PT',120),
-        (6,'Nutrição,2x mês',50),
-        (7,'Nutricão, ida única', 30),
-        (8,'Sauna,Passe mensal',30),
-        (9,'Sauna, Passe diario',3);
+		(1,'Natação,Passe diario',5,'A'),
+        (2,'Natação,Passe mensal',30,'A'),
+        (3,'Ginasio,Passe diario sem acompanhamento',3,'A'),
+		(4,'Ginasio,Passe mensal sem acompanhamento',25,'A'),
+        (5,'Ginasio, Passe mensal com PT',120,'A'),
+        (6,'Nutrição,2x mês',50,'A'),
+        (7,'Nutricão, ida única', 30,'A'),
+        (8,'Sauna,Passe mensal',30,'A'),
+        (9,'Sauna, Passe diario',3,'A');
         
 
 INSERT INTO Equipamento
@@ -253,115 +253,113 @@ INSERT INTO ExercicioEquipamento
 		(17,17);
                  
  INSERT INTO Fatura 
-	(idFatura,ContribuinteGinasio ,Data,Descricao,Valor,Funcionario,idCliente,Desconto )
+	(idFatura,ContribuinteGinasio ,Data,Descricao,Valor,Funcionario,idCliente,Desconto,Estado)
 	VALUES 
-				(1,111111111,'2018/01/05','Natação, Mensal & Ginásio, Mensal, PersonalTrainer',150,7,1,30),
-                (2,111111111,STR_TO_DATE( "5/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal & Nutrição, ida única',55,7,2,5),
-                (3,111111111,STR_TO_DATE( "5/01/2018",  "%d/%m/%Y" ),'Ginasio, Mensal, PersonalTrainer',120,8,3,20),
-                (4,111111111,STR_TO_DATE( "5/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Ginásio, Mensal, PersonalTrainer',150,8,4,30),
-                (5,111111111,STR_TO_DATE( "6/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Sauna, ida única',33,7,5,10),
-                (6,111111111,STR_TO_DATE( "6/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Nutrição, 2x',80,7,6,15),
-                (7,111111111,STR_TO_DATE( "6/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal, PersonalTrainer',120,7,7,23.20),
-                (8,111111111,STR_TO_DATE( "7/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal, PersonalTrainer',120,8,8,23.20),
-                (9,111111111,STR_TO_DATE( "7/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal, PersonalTrainer & Nutrição, ida única',150,8,9,20),
-                (10,111111111,STR_TO_DATE( "7/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal & Nutrição, 2x',75,8,10,10),
-                (11,111111111,STR_TO_DATE( "7/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal & Nutrição, ida única',55,8,11,5),
-                (12,111111111,STR_TO_DATE( "7/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Ginásio, Mensal',55,8,12,15),
-                (13,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal & Nutrição, ida única',55,8,13,5),
-                (14,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Ginásio, Mensal, PersonalTrainer',130,8,14,30),
-                (15,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal ',25,8,15,5),
-                (16,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal ',25,8,16,5),
-                (17,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio,Passe Diário & Sauna, Passe Diário',6,7,17,0),
-                (18,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal ',25,7,18,5),
-                (19,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Ginásio, Mensal, PersonalTrainer',150,7,19,30),
-                (20,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio Mensal',25,7,20,5);
+				(1,111111111,'2018/01/05','Natação, Mensal & Ginásio, Mensal, PersonalTrainer',150,7,1,30,'A'),
+                (2,111111111,STR_TO_DATE( "5/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal & Nutrição, ida única',55,7,2,5,'A'),
+                (3,111111111,STR_TO_DATE( "5/01/2018",  "%d/%m/%Y" ),'Ginasio, Mensal, PersonalTrainer',120,8,3,20,'A'),
+                (4,111111111,STR_TO_DATE( "5/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Ginásio, Mensal, PersonalTrainer',150,8,4,30,'A'),
+                (5,111111111,STR_TO_DATE( "6/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Sauna, ida única',33,7,5,10,'A'),
+                (6,111111111,STR_TO_DATE( "6/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Nutrição, 2x',80,7,6,15,'A'),
+                (7,111111111,STR_TO_DATE( "6/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal, PersonalTrainer',120,7,7,23.20,'A'),
+                (8,111111111,STR_TO_DATE( "7/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal, PersonalTrainer',120,8,8,23.20,'A'),
+                (9,111111111,STR_TO_DATE( "7/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal, PersonalTrainer & Nutrição, ida única',150,8,9,20,'A'),
+                (10,111111111,STR_TO_DATE( "7/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal & Nutrição, 2x',75,8,10,10,'A'),
+                (11,111111111,STR_TO_DATE( "7/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal & Nutrição, ida única',55,8,11,5,'A'),
+                (12,111111111,STR_TO_DATE( "7/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Ginásio, Mensal',55,8,12,15,'A'),
+                (13,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal & Nutrição, ida única',55,8,13,5,'A'),
+                (14,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Ginásio, Mensal, PersonalTrainer',130,8,14,30,'A'),
+                (15,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal ',25,8,15,5,'A'),
+                (16,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal ',25,8,16,5,'A'),
+                (17,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio,Passe Diário & Sauna, Passe Diário',6,7,17,0,'A'),
+                (18,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio, Mensal ',25,7,18,5,'A'),
+                (19,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Natação, Mensal & Ginásio, Mensal, PersonalTrainer',150,7,19,30,'A'),
+                (20,111111111,STR_TO_DATE( "8/01/2018",  "%d/%m/%Y" ),'Ginásio Mensal',25,7,20,5,'A');
  
 
- -- // Maneira de apagar tabela toda// --
--- DELETE FROM Fatura WHERE idFatura != 387
-INSERT INTO PlanoExercicios (Cliente,Exercicio,nSeries,nRepeticoes)
-    VALUES  (1,1,4,10),
-                    (1,5,4,10),
-                    (1,14,4,10),
-                    (1,20,4,10),
-                    (2,2,4,10),
-                    (2,6,4,10),
-                    (2,8,4,10),
-                    (2,15,4,10),
-                    (3,2,4,10),
-                    (3,9,4,10),
-                    (3,10,4,10),
-                    (3,12,4,10),
-                    (3,21,4,10),
-                    (4,3,4,10),
-                    (4,13,4,10),
-                    (4,15,4,10),
-                    (4,18,4,10),
-                    (5,6,3,12),
-                    (5,7,3,12),
-                    (5,11,3,12),
-                    (5,18,3,12),
-                    (6,5,3,12),
-                    (6,12,3,12),
-                    (6,13,3,12),
-                    (6,17,3,12),
-                    (7,4,5,8),
-                    (7,9,5,8),
-                    (7,17,5,8),
-                    (7,22,1,1),
-                    (8,3,5,8),
-                    (8,5,5,8),
-                    (8,8,5,8),
-                    (8,13,5,8),
-                    (9,11,3,10),
-                    (9,16,3,10),
-                    (9,18,3,10),
-                    (9,20,3,10),
-                    (10,15,5,10),
-                    (10,17,5,10),
-                    (10,18,5,10),
-                    (10,21,5,12),
-                    (11,4,5,10),
-                    (11,7,5,10),
-                    (11,8,5,10),
-                    (11,14,5,10),
-                    (12,3,5,10),
-                    (12,6,5,10),
-                    (12,8,5,10),
-                    (12,12,5,8),
-                    (12,17,5,8),
-                    (13,13,4,12),
-                    (13,15,4,12),
-                    (13,17,4,12),
-                    (13,19,4,12),
-                    (14,1,3,13),
-                    (14,11,3,13),
-                    (14,14,3,13),
-                    (14,16,3,13),
-                    (15,2,3,8),
-                    (15,6,3,8),
-                    (15,9,3,8),
-                    (15,13,3,8),
-                    (16,5,3,15),
-                    (16,10,3,15),
-                    (16,15,3,15),
-                    (16,20,3,15),
-                    (17,1,3,12),
-                    (17,4,3,12),
-                    (17,7,3,12),
-                    (17,10,3,12),
-                    (18,13,5,9),
-                    (18,14,5,9),
-                    (18,17,5,9),
-                    (18,18,5,9),
-                    (19,2,5,9),
-                    (19,3,5,9),
-                    (19,6,5,9),
-                    (19,9,5,9),
-                    (20,12,4,10),
-                    (20,16,4,10),
-                    (20,20,4,10),
-                    (20,22,1,1);      
+INSERT INTO PlanoExercicios (Cliente,Exercicio,nSeries,nRepeticoes,Estado)
+    VALUES  (1,1,4,10,'A'),
+                    (1,5,4,10,'A'),
+                    (1,14,4,10,'A'),
+                    (1,20,4,10,'A'),
+                    (2,2,4,10,'A'),
+                    (2,6,4,10,'A'),
+                    (2,8,4,10,'A'),
+                    (2,15,4,10,'A'),
+                    (3,2,4,10,'A'),
+                    (3,9,4,10,'A'),
+                    (3,10,4,10,'A'),
+                    (3,12,4,10,'A'),
+                    (3,21,4,10,'A'),
+                    (4,3,4,10,'A'),
+                    (4,13,4,10,'A'),
+                    (4,15,4,10,'A'),
+                    (4,18,4,10,'A'),
+                    (5,6,3,12,'A'),
+                    (5,7,3,12,'A'),
+                    (5,11,3,12,'A'),
+                    (5,18,3,12,'A'),
+                    (6,5,3,12,'A'),
+                    (6,12,3,12,'A'),
+                    (6,13,3,12,'A'),
+                    (6,17,3,12,'A'),
+                    (7,4,5,8,'A'),
+                    (7,9,5,8,'A'),
+                    (7,17,5,8,'A'),
+                    (7,22,1,1,'A'),
+                    (8,3,5,8,'A'),
+                    (8,5,5,8,'A'),
+                    (8,8,5,8,'A'),
+                    (8,13,5,8,'A'),
+                    (9,11,3,10,'A'),
+                    (9,16,3,10,'A'),
+                    (9,18,3,10,'A'),
+                    (9,20,3,10,'A'),
+                    (10,15,5,10,'A'),
+                    (10,17,5,10,'A'),
+                    (10,18,5,10,'A'),
+                    (10,21,5,12,'A'),
+                    (11,4,5,10,'A'),
+                    (11,7,5,10,'A'),
+                    (11,8,5,10,'A'),
+                    (11,14,5,10,'A'),
+                    (12,3,5,10,'A'),
+                    (12,6,5,10,'A'),
+                    (12,8,5,10,'A'),
+                    (12,12,5,8,'A'),
+                    (12,17,5,8,'A'),
+                    (13,13,4,12,'A'),
+                    (13,15,4,12,'A'),
+                    (13,17,4,12,'A'),
+                    (13,19,4,12,'A'),
+                    (14,1,3,13,'A'),
+                    (14,11,3,13,'A'),
+                    (14,14,3,13,'A'),
+                    (14,16,3,13,'A'),
+                    (15,2,3,8,'A'),
+                    (15,6,3,8,'A'),
+                    (15,9,3,8,'A'),
+                    (15,13,3,8,'A'),
+                    (16,5,3,15,'A'),
+                    (16,10,3,15,'A'),
+                    (16,15,3,15,'A'),
+                    (16,20,3,15,'A'),
+                    (17,1,3,12,'A'),
+                    (17,4,3,12,'A'),
+                    (17,7,3,12,'A'),
+                    (17,10,3,12,'A'),
+                    (18,13,5,9,'A'),
+                    (18,14,5,9,'A'),
+                    (18,17,5,9,'A'),
+                    (18,18,5,9,'A'),
+                    (19,2,5,9,'A'),
+                    (19,3,5,9,'A'),
+                    (19,6,5,9,'A'),
+                    (19,9,5,9,'A'),
+                    (20,12,4,10,'A'),
+                    (20,16,4,10,'A'),
+                    (20,20,4,10,'A'),
+                    (20,22,1,1,'A');      
         
 
 INSERT INTO servicofatura
@@ -401,15 +399,18 @@ INSERT INTO servicofatura
         (19,5),
         (20,4);
 
-CREATE USER 'Jafar Strogonof'@'localhost' IDENTIFIED BY 'Jafar';
+-- CREATE USER 'Jafar Strogonof'@'localhost' IDENTIFIED BY 'Jafar';
 
-CREATE USER 'King Julian Move-it Move-it'@'localhost' IDENTIFIED BY 'Julian';
-
-GRANT DELETE,INSERT,UPDATE,EXECUTE, SHOW VIEW ON Ginasio.* TO 'Jafar Strogonof'@'localhost';
+-- CREATE USER 'King Julian Move-it Move-it'@'localhost' IDENTIFIED BY 'Julian';
 
 
-GRANT DELETE,INSERT,UPDATE,EXECUTE, SHOW VIEW ON Ginasio.* TO 'King Julian Move-it Move-it'@'localhost';
+-- GRANT ALL PRIVILEGES ON Ginasio.* TO 'Jafar Strogonof'@'localhost';
 
+
+-- GRANT ALL PRIVILEGES ON Ginasio.Exercicio TO 'King Julian Move-it Move-it'@'localhost';
+-- GRANT ALL PRIVILEGES ON Ginasio.Equipamento TO 'King Julian Move-it Move-it'@'localhost';
+-- GRANT ALL PRIVILEGES ON Ginasio.Cliente TO 'King Julian Move-it Move-it'@'localhost';
+-- GRANT ALL PRIVILEGES ON Ginasio.Fatura TO 'King Julian Move-it Move-it'@'localhost';
 
 
 
