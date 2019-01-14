@@ -5,10 +5,15 @@
  */
 package bd;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Aggregates.limit;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -41,10 +46,10 @@ public class MigrationManager {
         exercicios = new HashMap<>();
         faturas = new HashMap<>();
         
-        String url = "jdbc:mysql://localhost:3307/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3306/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         String username = "Jafar Strogonof";
         String password = "Jafar";
-        
+        //?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
         System.out.println("Connecting to NoSQL Database...");
         Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
         mongoLogger.setLevel(Level.SEVERE);
@@ -69,6 +74,8 @@ public class MigrationManager {
         String query7 = "SELECT * FROM exercicio";
         String query8 = "SELECT * FROM planoexercicios";
         
+
+
 
         try (Connection con = DriverManager.getConnection(url, username, password)){
             PreparedStatement pstfuncionario = con.prepareStatement(query1);
@@ -170,6 +177,15 @@ public class MigrationManager {
                 i++;
             }
             System.out.println(i+" Servicos inserted on NoSQL DB");
+        
+        BasicDBObject  sort = new BasicDBObject();
+        sort.put("id",-1);
+        MongoCursor<Document> cursor = faturacol.find().sort(sort).limit(1).iterator();
+        while(cursor.hasNext()){
+            
+            Integer currentValue = sort.getInt("id");
+            System.out.println(currentValue);
+        }
 
         }catch (SQLException e) {
             throw new IllegalStateException("Cannot connect to the MySQL database!", e);
