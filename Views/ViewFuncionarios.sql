@@ -1,10 +1,15 @@
-CREATE VIEW `view_funcionario` AS
+CREATE VIEW `viewfuncionario` AS
     SELECT 
-        *
-    FROM
-        Funcionario AS F
-            INNER JOIN
-        ContactoFuncionario AS CF ON CF.idContacto = F.idContacto
-            INNER JOIN
-        MoradaFuncionario AS MF ON MF.idMorada = F.idMorada;
-   
+        f.Nome,
+        f.Idade,
+        f.Cargo,
+        f.idContacto,
+        c.NrTelemovel,
+        c.NrTelemovel2,
+        c.Email,
+        m.rua,
+        m.localidade,
+        m.codigoPostal
+    FROM funcionario as F
+        INNER JOIN contactofuncionario AS c ON c.idContacto = f.idContacto
+        INNER JOIN moradafuncionario AS m ON m.idMorada = f.idMorada
