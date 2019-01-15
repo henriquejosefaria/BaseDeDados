@@ -46,11 +46,8 @@ public class MigrationManager {
     private Map<Integer,Morada> clienteMoradas;
     private Map<Integer,Morada> funcMoradas;
     private int lastNoSQLFaturaId;
-    private int lastSQLFaturaId;
     private int lastNoSQLFuncionarioId;
-    private int lastSQLFuncionarioId;
     private int lastNoSQLServicoId;
-    private int lastSQLServicoId;
     
     public MigrationManager() throws SQLException{
         funcionarios = new HashMap<>();
@@ -63,11 +60,8 @@ public class MigrationManager {
         clienteMoradas = new HashMap<>();
         funcMoradas = new HashMap<>();
         lastNoSQLFaturaId = 0;
-        lastSQLFaturaId = 0;
         lastNoSQLFuncionarioId = 0;
-        lastSQLFuncionarioId = 0;
         lastNoSQLServicoId = 0;
-        lastSQLServicoId = 0;
         
         String url = "jdbc:mysql://localhost:3306/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         String username = "Jafar Strogonof";
@@ -101,9 +95,6 @@ public class MigrationManager {
         String query10 = "SELECT * FROM moradafuncionario";
         String query11 = "SELECT * FROM contacto";
         String query12 = "SELECT * FROM contactofuncionario";
-        String query13 = "Select MAX(idFatura) as lastID from fatura;";
-        String query14 = "Select MAX(idFuncionario) as lastID from funcionario;";
-        String query15 = "Select MAX(idServico) as lastID from servico;";
         
         
 
@@ -138,28 +129,6 @@ public class MigrationManager {
                 lastNoSQLServicoId = (Integer)ole.get("id");
             }
             System.out.println("Last Servico ID loaded from NOsql DB: " + lastNoSQLServicoId);
-            
-            
-            PreparedStatement pstLastFaturaID = con.prepareStatement(query13);
-            ResultSet rsLastFaturaID = pstLastFaturaID.executeQuery();
-            if (rsLastFaturaID.next()) {
-                lastSQLFaturaId = rsLastFaturaID.getInt(1);
-            }
-            System.out.println("Last Fatura ID loaded from MySQL DB: " + lastSQLFaturaId);
-            
-            PreparedStatement pstLastFuncionarioID = con.prepareStatement(query13);
-            ResultSet rsLastFuncionarioID = pstLastFuncionarioID.executeQuery();
-            if (rsLastFuncionarioID.next()) {
-                lastSQLFuncionarioId = rsLastFuncionarioID.getInt(1);
-            }
-            System.out.println("Last Funcionario ID loaded from MySQL DB: " + lastSQLFuncionarioId);
-            
-            PreparedStatement pstLastServicoID = con.prepareStatement(query13);
-            ResultSet rsLastServicoID = pstLastServicoID.executeQuery();
-            if (rsLastServicoID.next()) {
-                lastSQLServicoId = rsLastServicoID.getInt(1);
-            }
-            System.out.println("Last Servico ID loaded from MySQL DB: " + lastSQLServicoId);
             
             ///////
             PreparedStatement pstmoradac = con.prepareStatement(query9);

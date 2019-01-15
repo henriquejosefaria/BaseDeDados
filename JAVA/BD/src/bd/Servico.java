@@ -56,7 +56,6 @@ public class Servico {
     public Document createDoc(){
         Document doc = new Document("id", id)
                 .append("nome",nome)
-                .append("data",data)
                 .append("preco",preco)
                 .append("estado",estado);
         return doc;
