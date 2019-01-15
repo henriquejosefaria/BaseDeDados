@@ -228,7 +228,6 @@ public class MigrationManager {
            
             PreparedStatement pstFatura = con.prepareStatement(query5);
             ResultSet rsFatura = pstFatura.executeQuery();    
-            int k = 0;
             while (rsFatura.next()) {
                    
                 Fatura fat = new Fatura(rsFatura.getInt(1),rsFatura.getInt(2),rsFatura.getString(3),
@@ -237,9 +236,7 @@ public class MigrationManager {
                 Cliente client = clientes.get(rsFatura.getInt(6));
                 client.addFatura(fat);
                 faturas.put(rsFatura.getInt(1),fat);
-                k++;
             }
-            System.out.println(k+"  lalalal");
             System.out.println("Faturas loaded from MySQL DB: " + faturas.size());
             
             int i = 0;
@@ -251,13 +248,14 @@ public class MigrationManager {
             System.out.println(i +" Clientes inserted on NoSQL DB");
             i=0;
             
-            
+            int k = 0;
             
             for(Fatura fat : faturas.values()){
                 if(fat.getId()<=lastNoSQLFaturaId){
                     if(fat.getUptoDate().equals("N")){
                         BasicDBObject cmd = new BasicDBObject().append("$set", new  BasicDBObject("estado", fat.getEstado()));
                         faturacol.updateOne(new BasicDBObject().append("id", fat.getId()), cmd);
+                        k++;
                     }}
                     else{
                 Document doc = fat.createDoc();
@@ -265,8 +263,10 @@ public class MigrationManager {
                 i++;
                     }
             }
+            System.out.println(k +" Faturas updated on NoSQL DB");
             System.out.println(i +" Faturas inserted on NoSQL DB");
             
+            k = 0;
             i=0;
             for(Funcionario f : funcionarios.values()){
                 if(f.getId()<=lastNoSQLFuncionarioId){
@@ -277,9 +277,14 @@ public class MigrationManager {
                          BasicDBObject morada = new  BasicDBObject("rua",f.getMorada().getRua())
                                  .append("localidade",f.getMorada().getLocalidade())
                                  .append("codigoPostal",f.getMorada().getCodigoPostal());
+                          BasicDBList dBlist = new BasicDBList();
+                            for(Servico servico : f.getServicos()){
+                            dBlist.add(new BasicDBObject("id",servico.getId()).append("nome", servico.getNome()).append("Data", servico.getData()).append("estado", servico.getEstado()));
+                          }  
                          
-                        BasicDBObject newFunc = new BasicDBObject().append("$set", new  BasicDBObject("sexo", f.getSexo()).append("cargo",f.getCargo()).append("contacto",contacto)).append("morada",morada);
-                        faturacol.updateOne(new BasicDBObject().append("id", f.getId()), newFunc);
+                        BasicDBObject newFunc = new BasicDBObject().append("$set", new  BasicDBObject("sexo", f.getSexo()).append("cargo",f.getCargo()).append("contacto",contacto).append("morada",morada).append("servicos",dBlist));
+                        funcionariocol.updateOne(new BasicDBObject().append("id", f.getId()), newFunc);
+                        k++;
                      }}
                 
                 else{
@@ -288,14 +293,18 @@ public class MigrationManager {
                     i++;
                 }
             }
+            System.out.println(k +" Funcionarios updated on NoSQL DB");
             System.out.println(i +" Funcionarios inserted on NoSQL DB");
             
             i=0;
+            k = 0;
             for(Servico s : servicos.values()){
                  if(s.getId()<=lastNoSQLServicoId){
                     if(s.getUptoDate().equals("N")){
-                        BasicDBObject newServico = new BasicDBObject().append("$set", new  BasicDBObject("estado", s.getEstado()));
-                        faturacol.updateOne(new BasicDBObject().append("id", s.getId()), newServico);
+                       System.out.println( s.getEstado()+"kkkk");
+                        BasicDBObject newServico = new BasicDBObject().append("$set", new  BasicDBObject("estado",s.getEstado()));
+                        servicocol.updateOne(new BasicDBObject().append("id", s.getId()), newServico);
+                        k++;
                     }}
                 else{
                     Document doc = s.createDoc();
@@ -303,6 +312,7 @@ public class MigrationManager {
                     i++;
                 }
             }
+            System.out.println(k+" Servicos updated on NoSQL DB");
             System.out.println(i+" Servicos inserted on NoSQL DB");
           
 
@@ -310,10 +320,6 @@ public class MigrationManager {
             throw new IllegalStateException("Cannot connect to the MySQL database!", e);
         }
     
-    }
-    public void updateFatura(){
-
-
     }
     
     
