@@ -41,9 +41,16 @@ public class MigrationManager {
     private Map<Integer,Cliente> clientes;
     private Map<Integer,Exercicio> exercicios;
     private Map<Integer,Fatura> faturas;
+    private Map<Integer,Contacto> clienteContactos;
+    private Map<Integer,Contacto> funcContactos;
+    private Map<Integer,Morada> clienteMoradas;
+    private Map<Integer,Morada> funcMoradas;
     private int lastNoSQLFaturaId;
- 
     private int lastSQLFaturaId;
+    private int lastNoSQLFuncionarioId;
+    private int lastSQLFuncionarioId;
+    private int lastNoSQLServicoId;
+    private int lastSQLServicoId;
     
     public MigrationManager() throws SQLException{
         funcionarios = new HashMap<>();
@@ -51,8 +58,16 @@ public class MigrationManager {
         clientes = new HashMap<>();
         exercicios = new HashMap<>();
         faturas = new HashMap<>();
+        clienteContactos = new HashMap<>();
+        funcContactos = new HashMap<>();
+        clienteMoradas = new HashMap<>();
+        funcMoradas = new HashMap<>();
         lastNoSQLFaturaId = 0;
         lastSQLFaturaId = 0;
+        lastNoSQLFuncionarioId = 0;
+        lastSQLFuncionarioId = 0;
+        lastNoSQLServicoId = 0;
+        lastSQLServicoId = 0;
         
         String url = "jdbc:mysql://localhost:3306/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         String username = "Jafar Strogonof";
@@ -66,6 +81,7 @@ public class MigrationManager {
         
         MongoDatabase database = mongoClient.getDatabase("ginasio");
         MongoCollection<Document> clientecol = database.getCollection("cliente");
+        clientecol.drop();
         MongoCollection<Document> funcionariocol = database.getCollection("funcionario");
         MongoCollection<Document> servicocol = database.getCollection("servico");
         MongoCollection<Document> faturacol = database.getCollection("fatura");
@@ -81,7 +97,14 @@ public class MigrationManager {
         String query6 = "SELECT * FROM subscreve";//n altera
         String query7 = "SELECT * FROM exercicio";//n altera
         String query8 = "SELECT * FROM planoexercicios";
-        String query9 = "Select MAX(idCliente) as lastID from cliente;";
+        String query9 = "SELECT * FROM morada";
+        String query10 = "SELECT * FROM moradafuncionario";
+        String query11 = "SELECT * FROM contacto";
+        String query12 = "SELECT * FROM contactofuncionario";
+        String query13 = "Select MAX(idFatura) as lastID from fatura;";
+        String query14 = "Select MAX(idFuncionario) as lastID from funcionario;";
+        String query15 = "Select MAX(idServico) as lastID from servico;";
+        
         
 
 
@@ -89,43 +112,112 @@ public class MigrationManager {
             System.out.println("MySQL Database connected!");
             
                     //get NOSQL last ID
-            BasicDBObject  sort = new BasicDBObject();
-            sort.put("id",-1);
-            MongoCursor<Document> cursor = faturacol.find().sort(sort).limit(1).iterator();
-            while(cursor.hasNext()){
-                Document ole = cursor.next();
+            BasicDBObject  sortfat = new BasicDBObject();
+            sortfat.put("id",-1);
+            MongoCursor<Document> cursorfat = faturacol.find().sort(sortfat).limit(1).iterator();
+            while(cursorfat.hasNext()){
+                Document ole = cursorfat.next();
                 lastNoSQLFaturaId = (Integer)ole.get("id");
             }
             System.out.println("Last Fatura ID loaded from NOsql DB: " + lastNoSQLFaturaId);
             
-            PreparedStatement pstLastFaturaID = con.prepareStatement(query9);
+            BasicDBObject  sortfunc = new BasicDBObject();
+            sortfunc.put("id",-1);
+            MongoCursor<Document> cursorfunc = funcionariocol.find().sort(sortfunc).limit(1).iterator();
+            while(cursorfunc.hasNext()){
+                Document ole = cursorfunc.next();
+                lastNoSQLFuncionarioId = (Integer)ole.get("id");
+            }
+            System.out.println("Last Funcionario ID loaded from NOsql DB: " + lastNoSQLFuncionarioId);
+            
+            BasicDBObject  sortserv = new BasicDBObject();
+            sortserv.put("id",-1);
+            MongoCursor<Document> cursorserv = servicocol.find().sort(sortserv).limit(1).iterator();
+            while(cursorserv.hasNext()){
+                Document ole = cursorserv.next();
+                lastNoSQLServicoId = (Integer)ole.get("id");
+            }
+            System.out.println("Last Servico ID loaded from NOsql DB: " + lastNoSQLServicoId);
+            
+            
+            PreparedStatement pstLastFaturaID = con.prepareStatement(query13);
             ResultSet rsLastFaturaID = pstLastFaturaID.executeQuery();
             if (rsLastFaturaID.next()) {
                 lastSQLFaturaId = rsLastFaturaID.getInt(1);
             }
             System.out.println("Last Fatura ID loaded from MySQL DB: " + lastSQLFaturaId);
             
-            PreparedStatement pstfuncionario = con.prepareStatement(query1);
-            ResultSet rsfuncionario = pstfuncionario.executeQuery();
-            while (rsfuncionario.next()) {
-        
-                Funcionario func = new Funcionario(rsfuncionario.getInt(1),rsfuncionario.getString(2));
-                funcionarios.put(rsfuncionario.getInt(1),func);
+            PreparedStatement pstLastFuncionarioID = con.prepareStatement(query13);
+            ResultSet rsLastFuncionarioID = pstLastFuncionarioID.executeQuery();
+            if (rsLastFuncionarioID.next()) {
+                lastSQLFuncionarioId = rsLastFuncionarioID.getInt(1);
             }
-            System.out.println("Funcionarios loaded from MySQL DB: " + funcionarios.size());
+            System.out.println("Last Funcionario ID loaded from MySQL DB: " + lastSQLFuncionarioId);
+            
+            PreparedStatement pstLastServicoID = con.prepareStatement(query13);
+            ResultSet rsLastServicoID = pstLastServicoID.executeQuery();
+            if (rsLastServicoID.next()) {
+                lastSQLServicoId = rsLastServicoID.getInt(1);
+            }
+            System.out.println("Last Servico ID loaded from MySQL DB: " + lastSQLServicoId);
+            
+            ///////
+            PreparedStatement pstmoradac = con.prepareStatement(query9);
+            ResultSet rsmoradac = pstmoradac.executeQuery();        
+            while (rsmoradac.next()) {
+                Morada morada = new Morada(rsmoradac.getInt(1),rsmoradac.getString(2),rsmoradac.getString(3),rsmoradac.getString(4));
+                clienteMoradas.put(morada.getId(),morada);
+            }
+            System.out.println("Moradas do cliente loaded from MySQL DB: " + clienteMoradas.size());
+            
+            PreparedStatement pstmoradaf = con.prepareStatement(query10);
+            ResultSet rsmoradaf = pstmoradaf.executeQuery();        
+            while (rsmoradaf.next()) {
+                Morada morada = new Morada(rsmoradaf.getInt(1),rsmoradaf.getString(2),rsmoradaf.getString(3),rsmoradaf.getString(4));
+                funcMoradas.put(morada.getId(),morada);
+            }
+            System.out.println("Moradas do Funcionario loaded from MySQL DB: " + funcMoradas.size());
+            
+            PreparedStatement pstcontatoc = con.prepareStatement(query11);
+            ResultSet rscontactoc = pstcontatoc.executeQuery();        
+            while (rscontactoc.next()) {
+                Contacto contacto = new Contacto(rscontactoc.getInt(1),rscontactoc.getInt(2),rscontactoc.getInt(3),rscontactoc.getString(4));
+                clienteContactos.put(contacto.getId(),contacto);
+            }
+            System.out.println("Contactos do cliente  loaded from MySQL DB: " + clienteContactos.size());
+            
+            
+            PreparedStatement pstContactof = con.prepareStatement(query12);
+            ResultSet rsContactof = pstContactof.executeQuery();        
+            while (rsContactof.next()) {
+                Contacto contacto = new Contacto(rsContactof.getInt(1),rsContactof.getInt(2),rsContactof.getInt(3),rsContactof.getString(4));
+                funcContactos.put(contacto.getId(),contacto);
+            }
+            System.out.println("Contactos do Cliente loaded from MySQL DB: " + funcContactos.size());
+            
             
             PreparedStatement pstservico = con.prepareStatement(query2);
             ResultSet rsservico = pstservico.executeQuery();        
             while (rsservico.next()) {
-                Servico servico = new Servico(rsservico.getInt(1),rsservico.getString(2),null);
+                Servico servico = new Servico(rsservico.getInt(1),rsservico.getString(2),rsservico.getDouble(3),null,rsservico.getString(4),rsservico.getString(5));
                 servicos.put(servico.getId(),servico);
             }
             System.out.println("Servicos loaded from MySQL DB: " + servicos.size());
             
+            
+                        PreparedStatement pstfuncionario = con.prepareStatement(query1);
+            ResultSet rsfuncionario = pstfuncionario.executeQuery();
+            while (rsfuncionario.next()) {
+        
+                Funcionario func = new Funcionario(rsfuncionario.getInt(1),rsfuncionario.getString(2),rsfuncionario.getString(3),rsfuncionario.getString(4),rsfuncionario.getString(5),funcMoradas.get(rsfuncionario.getInt(7)),funcContactos.get(rsfuncionario.getInt(6)),rsfuncionario.getString(8));
+                funcionarios.put(rsfuncionario.getInt(1),func);
+            }
+            System.out.println("Funcionarios loaded from MySQL DB: " + funcionarios.size());
+            
             PreparedStatement pstPservico = con.prepareStatement(query3);
             ResultSet rsPServico = pstPservico.executeQuery();     
             while (rsPServico.next()) {
-                Servico pservico = new Servico(rsPServico.getInt(1),servicos.get(rsPServico.getInt(1)).getNome(),rsPServico.getString(3));
+                Servico pservico = new Servico(rsPServico.getInt(1),servicos.get(rsPServico.getInt(1)).getNome(),servicos.get(rsPServico.getInt(1)).getPreco(),rsPServico.getString(3),servicos.get(rsPServico.getInt(1)).getEstado(),servicos.get(rsPServico.getInt(1)).getUptoDate());
                 Funcionario pfunc = funcionarios.get(rsPServico.getInt(2));
                 pfunc.addServico(pservico);
             }
@@ -133,7 +225,10 @@ public class MigrationManager {
             PreparedStatement pstCliente = con.prepareStatement(query4);
             ResultSet rsCliente = pstCliente.executeQuery();     
             while (rsCliente.next()) {
-                Cliente cliente = new Cliente(rsCliente.getInt(1));
+                Cliente cliente = new Cliente(rsCliente.getInt(1),rsCliente.getString(2),rsCliente.getString(3),rsCliente.getString(4),rsCliente.getDouble(7),rsCliente.getDouble(8),rsCliente.getDouble(9),
+                rsCliente.getInt(10),rsCliente.getString(11));
+                cliente.setContacto(clienteContactos.get(rsCliente.getInt(5)));
+                cliente.setMorada(clienteMoradas.get(rsCliente.getInt(6)));
                 clientes.put(cliente.getId(),cliente);
             }
             System.out.println("Clients loaded from MySQL DB: " + clientes.size());
@@ -141,7 +236,7 @@ public class MigrationManager {
             PreparedStatement pstSubscreve = con.prepareStatement(query6);
             ResultSet rsSubscreve = pstSubscreve.executeQuery();     
             while (rsSubscreve.next()) {
-                Servico pservico = new Servico(rsSubscreve.getInt(2),servicos.get(rsSubscreve.getInt(2)).getNome(),null);
+                Servico pservico = new Servico(rsSubscreve.getInt(2),servicos.get(rsSubscreve.getInt(2)).getNome(),servicos.get(rsSubscreve.getInt(2)).getPreco(),rsSubscreve.getString(3),servicos.get(rsSubscreve.getInt(2)).getEstado(),servicos.get(rsSubscreve.getInt(2)).getUptoDate());
                 Cliente pcliente = clientes.get(rsSubscreve.getInt(1));
                 pcliente.addServico(pservico);
             }
@@ -149,7 +244,7 @@ public class MigrationManager {
             PreparedStatement pstExercicio = con.prepareStatement(query7);
             ResultSet rsExercicio = pstExercicio.executeQuery();     
             while (rsExercicio.next()) {
-                Exercicio exercicio = new Exercicio(rsExercicio.getInt(1),rsExercicio.getString(2),null,null);
+                Exercicio exercicio = new Exercicio(rsExercicio.getInt(1),rsExercicio.getString(2),rsExercicio.getString(3),null,null,null);
                 exercicios.put(rsExercicio.getInt(1), exercicio);
             }
             System.out.println("Exercicios loaded from MySQL DB: " + exercicios.size());
@@ -157,7 +252,7 @@ public class MigrationManager {
             PreparedStatement pstPExercicio = con.prepareStatement(query8);
             ResultSet rsPExercicio = pstPExercicio.executeQuery();     
             while (rsPExercicio.next()) {
-                Exercicio exercicio = new Exercicio(rsPExercicio.getInt(2),exercicios.get(rsPExercicio.getInt(2)).getDescricao(),rsPExercicio.getInt(3),rsPExercicio.getInt(4));
+                Exercicio exercicio = new Exercicio(rsPExercicio.getInt(2),exercicios.get(rsPExercicio.getInt(2)).getDescricao(),exercicios.get(rsPExercicio.getInt(2)).getTipo(),rsPExercicio.getInt(3),rsPExercicio.getInt(4),rsPExercicio.getString(5));
                 clientes.get(rsPExercicio.getInt(1)).addExercicio(exercicio);
             }
             
@@ -169,7 +264,7 @@ public class MigrationManager {
                    
                 Fatura fat = new Fatura(rsFatura.getInt(1),rsFatura.getInt(2),rsFatura.getString(3),
                 rsFatura.getString(4),rsFatura.getDouble(5),rsFatura.getDouble(7),rsFatura.getInt(8),
-                    null);
+                    rsFatura.getString(9),rsFatura.getString(10));
                 Cliente client = clientes.get(rsFatura.getInt(6));
                 client.addFatura(fat);
                 faturas.put(rsFatura.getInt(1),fat);
@@ -184,7 +279,7 @@ public class MigrationManager {
                 clientecol.insertOne(doc);
                 i++;
             }
-            
+            System.out.println(i +" Clientes inserted on NoSQL DB");
             i=0;
             
             
@@ -201,51 +296,46 @@ public class MigrationManager {
                 i++;
                     }
             }
+            System.out.println(i +" Faturas inserted on NoSQL DB");
             
             i=0;
             for(Funcionario f : funcionarios.values()){
                 if(f.getId()<=lastNoSQLFuncionarioId){
                      if(f.getUptoDate().equals("N")){
-                        BasicDBObject cmd = new BasicDBObject().append("$set", new  BasicDBObject("estado", fat.getEstado()).append());
-                        faturacol.updateOne(new BasicDBObject().append("id", fat.getId()), cmd);
+                         BasicDBObject contacto = new  BasicDBObject("tele1",f.getContacto().getTele1())
+                                 .append("tele2",f.getContacto().getTele2())
+                                 .append("email",f.getContacto().getEmail());
+                         BasicDBObject morada = new  BasicDBObject("rua",f.getMorada().getRua())
+                                 .append("localidade",f.getMorada().getLocalidade())
+                                 .append("codigoPostal",f.getMorada().getCodigoPostal());
+                         
+                        BasicDBObject newFunc = new BasicDBObject().append("$set", new  BasicDBObject("sexo", f.getSexo()).append("cargo",f.getCargo()).append("contacto",contacto)).append("morada",morada);
+                        faturacol.updateOne(new BasicDBObject().append("id", f.getId()), newFunc);
                      }}
                 
                 else{
-                Document doc = f.createDoc();
-                funcionariocol.insertOne(doc);
-                i++;
+                    Document doc = f.createDoc();
+                    funcionariocol.insertOne(doc);
+                    i++;
                 }
             }
             System.out.println(i +" Funcionarios inserted on NoSQL DB");
             
             i=0;
             for(Servico s : servicos.values()){
-                Document doc = s.createDoc();
-                servicocol.insertOne(doc);
-                i++;
+                 if(s.getId()<=lastNoSQLServicoId){
+                    if(s.getUptoDate().equals("N")){
+                        BasicDBObject newServico = new BasicDBObject().append("$set", new  BasicDBObject("estado", s.getEstado()));
+                        faturacol.updateOne(new BasicDBObject().append("id", s.getId()), newServico);
+                    }}
+                else{
+                    Document doc = s.createDoc();
+                    servicocol.insertOne(doc);
+                    i++;
+                }
             }
             System.out.println(i+" Servicos inserted on NoSQL DB");
-            
-             BasicDBList dBlist = new BasicDBList();
-    dBlist.add(new BasicDBObject("name", "Miguel é gay").append("Data", "LALALA"));
-              
-            
-            Document testObject = new Document(); 
-            BasicDBObject milestoneObject = new BasicDBObject();
-            //testObject.put("suitename", "testsuite");
-            //testObject.put("testname", "testcase");         
-            BasicDBObject cmd = new BasicDBObject().append("$set", new  BasicDBObject("servicos", dBlist));
-            funcionariocol.updateOne(new BasicDBObject().append("id", 2), cmd);
-            
-            
-           
- 
-       // faturacol.save(new BasicDBObject("_id", 4).append("grades", grades));
- 
-        faturacol.updateOne( new BasicDBObject("id", 1).append("servico.grade", 85),
-                           new BasicDBObject("$set", new BasicDBObject("grades.$.std", 6)) );
- 
-        System.out.println(faturacol.find(new BasicDBObject("_id", 4)));
+          
 
         }catch (SQLException e) {
             throw new IllegalStateException("Cannot connect to the MySQL database!", e);

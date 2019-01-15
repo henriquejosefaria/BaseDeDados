@@ -20,9 +20,10 @@ public class Fatura {
     private double desconto;
     private Integer funcionarioId;
     private String estado;
+    private String uptoDate;
     
     public Fatura(Integer id, Integer contribuinteGinasio, String data, String descricao, double valor, double desconto,
-            Integer funcionarioId, String invalida){
+            Integer funcionarioId, String invalida,String uptoDate){
         this.id = id;
         this.contribuinteGinasio = contribuinteGinasio;
         this.data = data;
@@ -31,6 +32,7 @@ public class Fatura {
         this.desconto = desconto;
         this.funcionarioId = funcionarioId;
         this.estado = invalida;
+        this.uptoDate = uptoDate;
     }
     public Document createDoc(){
         Document doc = new Document("id", id)
@@ -40,12 +42,15 @@ public class Fatura {
                 .append("valor", valor)
                 .append("desconto",desconto)
                 .append("funcionarioId", funcionarioId)
-                .append("invalida",estado);
+                .append("estado",estado);
         return doc;
     }
 
     public Integer getId() {
         return id;
+    }
+    public String getUptoDate(){
+        return uptoDate;
     }
 
     public Integer getContribuinteGinasio() {

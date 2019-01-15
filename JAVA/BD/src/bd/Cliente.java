@@ -24,7 +24,7 @@ public class Cliente {
     private double peso;
     private double altura;
     private int contribuinte;
-    private String limitcao;
+    private String limitacao;
     private Morada morada;
     private Contacto contacto;
     private ArrayList<Exercicio> exercicios = new ArrayList<>();
@@ -40,13 +40,23 @@ public class Cliente {
         this.peso = peso;
         this.altura = altura;
         this.contribuinte = contribuinte;
-        this.limitcao = limitcao;
+        this.limitacao = limitcao;
     }
-
 
     
     public Document createDoc(){
-        Document doc = new Document("id", id);
+        Document doc = new Document("id", id)
+                .append("nome",nome)
+                .append("sexo",sexo)
+                .append("dataNascimento",dataNascimento)
+                .append("imc",imc)
+                .append("peso",peso)
+                .append("altura",altura)
+                .append("contribuinte",contribuinte)
+                .append("limitcao",limitacao)
+                .append("morada",morada.createDoc())
+                .append("contacto", contacto.createDoc());
+                
         
         BasicDBList dBlist0 = new BasicDBList();
         for(Servico ser : servicos){
@@ -59,10 +69,12 @@ public class Cliente {
    
         BasicDBList dBlist1 = new BasicDBList();
         for(Exercicio ex : exercicios){
-            dBlist1.add(new BasicDBObject("descricao", ex.getDescricao())
+            dBlist1.add(new BasicDBObject("id",ex.getId())
+                    .append("descricao", ex.getDescricao())
                     .append("tipo",ex.getTipo())
                     .append("sets", ex.getnSeries())
-                    .append("reps", ex.getnRepeticoes()));
+                    .append("reps", ex.getnRepeticoes())
+                    .append("estado",ex.getEstado()));
         }              
         doc.put("exercicios", dBlist1);
         
@@ -96,5 +108,8 @@ public class Cliente {
 
     public void setContacto(Contacto contacto) {
         this.contacto = contacto;
+    }
+    public int getId(){
+        return id;
     }
 }

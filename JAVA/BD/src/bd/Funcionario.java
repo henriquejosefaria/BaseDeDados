@@ -29,14 +29,58 @@ public class Funcionario {
    private Morada morada;
    private Contacto contacto;
    private Document doc;
+   private String uptoDate;
+
+    public Funcionario(Integer id, String nome, String data, String sexo, String cargo, Morada morada, Contacto contacto, String uptoDate) {
+        this.id = id;
+        this.nome = nome;
+        this.data = data;
+        this.sexo = sexo;
+        this.cargo = cargo;
+        this.morada = morada;
+        this.contacto = contacto;
+        this.uptoDate = uptoDate;
+    }
+
+    public ArrayList<Servico> getServicos() {
+        return servicos;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public Morada getMorada() {
+        return morada;
+    }
+
+    public Contacto getContacto() {
+        return contacto;
+    }
+
+    public Document getDoc() {
+        return doc;
+    }
 
    
-public Funcionario(Integer id,String nome){
-    this.id = id;
-    this.nome = nome;
-    }
 public Integer getId(){
     return id;
+}
+
+public String getUptoDate(){
+    return uptoDate;
 }
 
 public void addServico(Servico servico){
@@ -54,7 +98,7 @@ public Document createDoc(){
    
  BasicDBList dBlist = new BasicDBList();
  for(Servico servico : servicos){
-    dBlist.add(new BasicDBObject("id",servico.getId()).append("nome", servico.getNome()).append("Data", servico.getData()));
+    dBlist.add(new BasicDBObject("id",servico.getId()).append("nome", servico.getNome()).append("Data", servico.getData()).append("estado", servico.getEstado()));
  }              
  doc.put("servicos", dBlist);
 return doc;         

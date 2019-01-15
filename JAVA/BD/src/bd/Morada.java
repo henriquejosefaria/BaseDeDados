@@ -40,8 +40,7 @@ public class Morada {
         return codigoPostal;
     }
     public Document createDoc(){
-                Document doc = new Document("id", id)
-                .append("rua",rua)
+                Document doc = new Document("rua",rua)
                 .append("localidade",localidade)
                 .append("codigoPostal",codigoPostal);
               return doc;

@@ -40,8 +40,7 @@ public class Contacto {
         this.email = email;
     }
         public Document createDoc(){
-                Document doc = new Document("id", id)
-                .append("tele1",tele1)
+                Document doc = new Document("tele1",tele1)
                 .append("tele2",tele2)
                 .append("email",email);
               return doc;
