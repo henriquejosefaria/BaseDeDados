@@ -15,8 +15,8 @@ BEGIN
    INSERT INTO MoradaFuncionario (rua,localidade,codigoPostal)
           VALUE (irua,localidade,codigoPostal);
           SET y = LAST_INSERT_ID();
-   INSERT INTO Funcionario (Nome,Idade,Sexo,Cargo,idContacto,idMorada)
-          VALUE (nome,idade,sexo,cargo,x,y);
+   INSERT INTO Funcionario (Nome,Idade,Sexo,Cargo,idContacto,idMorada,UptoDate)
+          VALUE (nome,idade,sexo,cargo,x,y,'S');
    COMMIT;
 END$$
 

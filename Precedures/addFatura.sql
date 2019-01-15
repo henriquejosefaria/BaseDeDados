@@ -7,8 +7,8 @@ BEGIN
       RESIGNAL;
    END;
    START TRANSACTION;
-   INSERT INTO Fatura (ContribuinteGinasio,Data,Descricao,Valor,idCliente,Desconto,idFuncionario,Estado)
-        VALUES (ContribuinteGinasio,NOW(),Descricao,Valor,idCliente,Desconto,idFuncionario,'A');
+   INSERT INTO Fatura (ContribuinteGinasio,Data,Descricao,Valor,idCliente,Desconto,idFuncionario,Estado,UptoDate)
+        VALUES (ContribuinteGinasio,NOW(),Descricao,Valor,idCliente,Desconto,idFuncionario,'A','S');
    IF S1 != 0
         THEN INSERT INTO ServicoFatura (idFatura,idServico)
         VALUE(idFatura,S1);
