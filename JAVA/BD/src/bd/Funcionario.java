@@ -42,7 +42,7 @@ public Document createDoc(){
    
  BasicDBList dBlist = new BasicDBList();
  for(Servico servico : servicos){
-    dBlist.add(new BasicDBObject("name", servico.getNome()).append("minimum", servico.getData()));
+    dBlist.add(new BasicDBObject("name", servico.getNome()).append("Data", servico.getData()));
  }              
  doc.put("servicos", dBlist);
 return doc;         

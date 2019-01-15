@@ -1,9 +1,9 @@
 DELIMITER $$
 CREATE PROCEDURE `updateservico` (in id int(11))
 BEGIN
-UPDATE servico
-SET estado= IF(servico.estado = 'A', 'I','A')
-WHERE servico.idServico=id;
+UPDATE servico as s
+SET s.estado= IF(s.estado = 'A', 'I','A')
+WHERE (s.idServico=id) ;
 END$$
 
 DELIMITER ;

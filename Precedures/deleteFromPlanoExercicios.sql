@@ -1,9 +1,10 @@
 DELIMITER $$
 CREATE PROCEDURE `deletefromPA` (in idCliente INT(10), in idExercicio INT (10))
 BEGIN
-UPDATE planoexercicios
-SET Estado='I'
-WHERE(Cliente=idCliente AND Exercicio=idExercicio);
+UPDATE planoexercicios as p
+INNER JOIN cliente as c
+SET p.Estado='I'
+WHERE(p.Cliente=idCliente AND p.Exercicio=idExercicio);
 
 END$$
 
