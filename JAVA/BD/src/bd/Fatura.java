@@ -17,16 +17,22 @@ public class Fatura {
     private String data;
     private String descricao;
     private double valor;
+    private String nomeFuncionario;
+    private String nomeCliente;
     private double desconto;
     private Integer funcionarioId;
     private String estado;
     private String uptoDate;
+    private int clienteContribuinte;
     
     public Fatura(Integer id, Integer contribuinteGinasio, String data, String descricao, double valor, double desconto,
-            Integer funcionarioId, String invalida,String uptoDate){
+            Integer funcionarioId, String nomeCliente, String nomeFuncionario, int clienteContribuinte, String invalida,String uptoDate){
         this.id = id;
         this.contribuinteGinasio = contribuinteGinasio;
         this.data = data;
+        this.nomeCliente = nomeCliente;
+        this.nomeFuncionario = nomeFuncionario;
+        this.clienteContribuinte = clienteContribuinte;
         this.descricao = descricao;
         this.valor = valor;
         this.desconto = desconto;
@@ -37,6 +43,9 @@ public class Fatura {
     public Document createDoc(){
         Document doc = new Document("id", id)
                 .append("contribuinteGinasio", contribuinteGinasio)
+                .append("nomeFuncionario",nomeFuncionario)
+                .append("nomeCliente",nomeCliente)
+                .append("NContribuinteCliente",clienteContribuinte)
                 .append("data",data)
                 .append("descricao", descricao)
                 .append("valor", valor)

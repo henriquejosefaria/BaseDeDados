@@ -105,6 +105,12 @@ public class Cliente {
     public void setMorada(Morada morada) {
         this.morada = morada;
     }
+    public int getNcontribuinte(){
+        return contribuinte;
+    }
+    public String getNome(){
+        return nome;
+    }
 
     public void setContacto(Contacto contacto) {
         this.contacto = contacto;

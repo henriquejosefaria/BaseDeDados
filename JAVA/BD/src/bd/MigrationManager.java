@@ -232,7 +232,7 @@ public class MigrationManager {
                    
                 Fatura fat = new Fatura(rsFatura.getInt(1),rsFatura.getInt(2),rsFatura.getString(3),
                 rsFatura.getString(4),rsFatura.getDouble(5),rsFatura.getDouble(7),rsFatura.getInt(8),
-                    rsFatura.getString(9),rsFatura.getString(10));
+                clientes.get(rsFatura.getInt(6)).getNome(),funcionarios.get(rsFatura.getInt(8)).getNome(), clientes.get(rsFatura.getInt(6)).getNcontribuinte(),rsFatura.getString(9),rsFatura.getString(10));
                 Cliente client = clientes.get(rsFatura.getInt(6));
                 client.addFatura(fat);
                 faturas.put(rsFatura.getInt(1),fat);
