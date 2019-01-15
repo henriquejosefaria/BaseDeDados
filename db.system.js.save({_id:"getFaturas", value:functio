@@ -1,0 +1,1 @@
+db.system.js.save({_id:"getFaturas", value:function(List<int> l) { if(l == NULL){return db.baseDados.find();} else{ for(int l1 : l){db.baseDados.find({$where: "Faturas._id == l"}); } }}});
