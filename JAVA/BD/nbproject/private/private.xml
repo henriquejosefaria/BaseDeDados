@@ -5,6 +5,12 @@
         <group>
             <file>file:/C:/UM/BD/BaseDeDados/JAVA/BD/src/bd/MigrationManager.java</file>
             <file>file:/C:/UM/BD/BaseDeDados/JAVA/BD/src/bd/Interface.java</file>
+            <file>file:/C:/UM/BD/BaseDeDados/JAVA/BD/src/bd/Funcionario.java</file>
+            <file>file:/C:/UM/BD/BaseDeDados/JAVA/BD/src/bd/Servico.java</file>
+            <file>file:/C:/UM/BD/BaseDeDados/JAVA/BD/src/bd/Fatura.java</file>
+            <file>file:/C:/UM/BD/BaseDeDados/JAVA/BD/src/bd/Exercicio.java</file>
+            <file>file:/C:/UM/BD/BaseDeDados/JAVA/BD/src/bd/AConnection.java</file>
+            <file>file:/C:/UM/BD/BaseDeDados/JAVA/BD/src/bd/Cliente.java</file>
         </group>
     </open-files>
 </project-private>

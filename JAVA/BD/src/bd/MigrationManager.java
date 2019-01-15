@@ -5,6 +5,7 @@
  */
 package bd;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -14,11 +15,13 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Aggregates.limit;
+import java.awt.List;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -38,6 +41,9 @@ public class MigrationManager {
     private Map<Integer,Cliente> clientes;
     private Map<Integer,Exercicio> exercicios;
     private Map<Integer,Fatura> faturas;
+    private int lastNoSQLFaturaId;
+ 
+    private int lastSQLFaturaId;
     
     public MigrationManager() throws SQLException{
         funcionarios = new HashMap<>();
@@ -45,11 +51,13 @@ public class MigrationManager {
         clientes = new HashMap<>();
         exercicios = new HashMap<>();
         faturas = new HashMap<>();
+        lastNoSQLFaturaId = 0;
+        lastSQLFaturaId = 0;
         
-        String url = "jdbc:mysql://localhost:3306/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3307/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         String username = "Jafar Strogonof";
         String password = "Jafar";
-        //?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      
         System.out.println("Connecting to NoSQL Database...");
         Logger mongoLogger = Logger.getLogger( "org.mongodb.driver" );
         mongoLogger.setLevel(Level.SEVERE);
@@ -69,19 +77,36 @@ public class MigrationManager {
         String query2 = "SELECT * FROM servico";
         String query3 = "SELECT * FROM prestaservico";
         String query4 = "SELECT * FROM cliente";
-        String query5 = "SELECT * FROM fatura";
+
         String query6 = "SELECT * FROM subscreve";
         String query7 = "SELECT * FROM exercicio";
         String query8 = "SELECT * FROM planoexercicios";
+        String query9 = "Select MAX(idCliente) as lastID from cliente;";
         
 
 
-
         try (Connection con = DriverManager.getConnection(url, username, password)){
+            System.out.println("MySQL Database connected!");
+            
+                    //get NOSQL last ID
+            BasicDBObject  sort = new BasicDBObject();
+            sort.put("id",-1);
+            MongoCursor<Document> cursor = faturacol.find().sort(sort).limit(1).iterator();
+            while(cursor.hasNext()){
+                Document ole = cursor.next();
+                lastNoSQLFaturaId = (Integer)ole.get("id");
+            }
+            System.out.println("Last Fatura ID loaded from NOsql DB: " + lastNoSQLFaturaId);
+            
+            PreparedStatement pstLastFaturaID = con.prepareStatement(query9);
+            ResultSet rsLastFaturaID = pstLastFaturaID.executeQuery();
+            if (rsLastFaturaID.next()) {
+                lastSQLFaturaId = rsLastFaturaID.getInt(1);
+            }
+            System.out.println("Last Fatura ID loaded from MySQL DB: " + lastSQLFaturaId);
+            
             PreparedStatement pstfuncionario = con.prepareStatement(query1);
             ResultSet rsfuncionario = pstfuncionario.executeQuery();
-            
-            System.out.println("MySQL Database connected!");
             while (rsfuncionario.next()) {
         
                 Funcionario func = new Funcionario(rsfuncionario.getInt(1),rsfuncionario.getString(2));
@@ -135,17 +160,23 @@ public class MigrationManager {
                 Exercicio exercicio = new Exercicio(rsPExercicio.getInt(2),exercicios.get(rsPExercicio.getInt(2)).getDescricao(),rsPExercicio.getInt(3),rsPExercicio.getInt(4));
                 clientes.get(rsPExercicio.getInt(1)).addExercicio(exercicio);
             }
- 
+            
+            
+            String query5 = "SELECT * FROM fatura where idfatura > " +lastNoSQLFaturaId+";";
             PreparedStatement pstFatura = con.prepareStatement(query5);
             ResultSet rsFatura = pstFatura.executeQuery();    
+            int k = 0;
             while (rsFatura.next()) {
+                   
                 Fatura fat = new Fatura(rsFatura.getInt(1),rsFatura.getInt(2),rsFatura.getString(3),
-                        rsFatura.getString(4),rsFatura.getDouble(5),rsFatura.getDouble(7),rsFatura.getInt(8),
+                rsFatura.getString(4),rsFatura.getDouble(5),rsFatura.getDouble(7),rsFatura.getInt(8),
                     null);
                 Cliente client = clientes.get(rsFatura.getInt(6));
                 client.addFatura(fat);
                 faturas.put(rsFatura.getInt(1),fat);
+                k++;
             }
+            System.out.println(k+"  lalalal");
             System.out.println("Faturas loaded from MySQL DB: " + faturas.size());
             
             int i = 0;
@@ -177,20 +208,41 @@ public class MigrationManager {
                 i++;
             }
             System.out.println(i+" Servicos inserted on NoSQL DB");
-        
-        BasicDBObject  sort = new BasicDBObject();
-        sort.put("id",-1);
-        MongoCursor<Document> cursor = faturacol.find().sort(sort).limit(1).iterator();
-        while(cursor.hasNext()){
             
-            Integer currentValue = sort.getInt("id");
-            System.out.println(currentValue);
-        }
+             BasicDBList dBlist = new BasicDBList();
+    dBlist.add(new BasicDBObject("name", "Miguel é gay").append("Data", "LALALA"));
+              
+            
+            Document testObject = new Document(); 
+            BasicDBObject milestoneObject = new BasicDBObject();
+            //testObject.put("suitename", "testsuite");
+            //testObject.put("testname", "testcase");         
+            BasicDBObject cmd = new BasicDBObject().append("$set", new  BasicDBObject("servicos", dBlist));
+            funcionariocol.updateOne(new BasicDBObject().append("id", 2), cmd);
+            
+            
+            
+                    BasicDBList grades = new BasicDBList();
+        grades.add(new BasicDBObject("grade", 80).append("mean", 75).append("std", 8));
+        grades.add(new BasicDBObject("grade", 85).append("mean", 90).append("std", 5));
+        grades.add(new BasicDBObject("grade", 90).append("mean", 85).append("std", 3));
+ 
+       // faturacol.save(new BasicDBObject("_id", 4).append("grades", grades));
+ 
+        faturacol.updateOne( new BasicDBObject("id", 1).append("servico.grade", 85),
+                           new BasicDBObject("$set", new BasicDBObject("grades.$.std", 6)) );
+ 
+        System.out.println(faturacol.find(new BasicDBObject("_id", 4)));
 
         }catch (SQLException e) {
             throw new IllegalStateException("Cannot connect to the MySQL database!", e);
         }
     
     }
+    public void updateFuncionario(){
+        
+
+    }
+    
     
 }
