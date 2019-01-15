@@ -54,7 +54,7 @@ public class MigrationManager {
         lastNoSQLFaturaId = 0;
         lastSQLFaturaId = 0;
         
-        String url = "jdbc:mysql://localhost:3307/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3306/ginasio?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         String username = "Jafar Strogonof";
         String password = "Jafar";
       
@@ -75,11 +75,11 @@ public class MigrationManager {
         System.out.println("Connecting to MySQL Database...");
         String query1 = "SELECT * FROM funcionario";
         String query2 = "SELECT * FROM servico";
-        String query3 = "SELECT * FROM prestaservico";
+        String query3 = "SELECT * FROM prestaservico";//n altera
         String query4 = "SELECT * FROM cliente";
-
-        String query6 = "SELECT * FROM subscreve";
-        String query7 = "SELECT * FROM exercicio";
+        String query5 = "SELECT * FROM fatura;";
+        String query6 = "SELECT * FROM subscreve";//n altera
+        String query7 = "SELECT * FROM exercicio";//n altera
         String query8 = "SELECT * FROM planoexercicios";
         String query9 = "Select MAX(idCliente) as lastID from cliente;";
         
@@ -161,8 +161,7 @@ public class MigrationManager {
                 clientes.get(rsPExercicio.getInt(1)).addExercicio(exercicio);
             }
             
-            
-            String query5 = "SELECT * FROM fatura where idfatura > " +lastNoSQLFaturaId+";";
+           
             PreparedStatement pstFatura = con.prepareStatement(query5);
             ResultSet rsFatura = pstFatura.executeQuery();    
             int k = 0;
@@ -187,17 +186,35 @@ public class MigrationManager {
             }
             
             i=0;
+            
+            
+            
             for(Fatura fat : faturas.values()){
+                if(fat.getId()<=lastNoSQLFaturaId){
+                    if(fat.getUptoDate().equals("N")){
+                        BasicDBObject cmd = new BasicDBObject().append("$set", new  BasicDBObject("estado", fat.getEstado()));
+                        faturacol.updateOne(new BasicDBObject().append("id", fat.getId()), cmd);
+                    }}
+                    else{
                 Document doc = fat.createDoc();
                 faturacol.insertOne(doc);
                 i++;
+                    }
             }
             
             i=0;
             for(Funcionario f : funcionarios.values()){
+                if(f.getId()<=lastNoSQLFuncionarioId){
+                     if(f.getUptoDate().equals("N")){
+                        BasicDBObject cmd = new BasicDBObject().append("$set", new  BasicDBObject("estado", fat.getEstado()).append());
+                        faturacol.updateOne(new BasicDBObject().append("id", fat.getId()), cmd);
+                     }}
+                
+                else{
                 Document doc = f.createDoc();
                 funcionariocol.insertOne(doc);
                 i++;
+                }
             }
             System.out.println(i +" Funcionarios inserted on NoSQL DB");
             
@@ -221,11 +238,7 @@ public class MigrationManager {
             funcionariocol.updateOne(new BasicDBObject().append("id", 2), cmd);
             
             
-            
-                    BasicDBList grades = new BasicDBList();
-        grades.add(new BasicDBObject("grade", 80).append("mean", 75).append("std", 8));
-        grades.add(new BasicDBObject("grade", 85).append("mean", 90).append("std", 5));
-        grades.add(new BasicDBObject("grade", 90).append("mean", 85).append("std", 3));
+           
  
        // faturacol.save(new BasicDBObject("_id", 4).append("grades", grades));
  
@@ -239,8 +252,8 @@ public class MigrationManager {
         }
     
     }
-    public void updateFuncionario(){
-        
+    public void updateFatura(){
+
 
     }
     

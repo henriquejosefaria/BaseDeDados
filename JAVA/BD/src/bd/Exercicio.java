@@ -14,8 +14,10 @@ public class Exercicio {
     private Integer nSeries;
     private Integer nRepeticoes;
     private Integer id;
+    private String tipo;
 
-    public Exercicio(Integer id,String descricao, Integer nSeries, Integer nRepeticoes) {
+    public Exercicio(Integer id,String descricao,String tipo, Integer nSeries, Integer nRepeticoes) {
+        this.tipo = tipo;
         this.descricao = descricao;
         this.nSeries = nSeries;
         this.nRepeticoes = nRepeticoes;
@@ -36,6 +38,9 @@ public class Exercicio {
 
     public Integer getId() {
         return id;
+    }
+    public String getTipo(){
+        return tipo;
     }
     
 }

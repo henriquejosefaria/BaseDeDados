@@ -17,26 +17,50 @@ import org.bson.Document;
 public class Cliente {
     
     private Integer id = 0;
+    private String nome;
+    private String sexo;
+    private String dataNascimento;
+    private double imc;
+    private double peso;
+    private double altura;
+    private int contribuinte;
+    private String limitcao;
+    private Morada morada;
+    private Contacto contacto;
     private ArrayList<Exercicio> exercicios = new ArrayList<>();
     private ArrayList<Servico> servicos = new ArrayList<>();
     private ArrayList<Fatura> faturas = new ArrayList<>();
 
-    public Cliente(int id){
+    public Cliente(Integer id,String nome, String sexo, String dataNascimento, double imc, double peso, double altura, int contribuinte, String limitcao) {
         this.id = id;
+        this.nome = nome;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+        this.imc = imc;
+        this.peso = peso;
+        this.altura = altura;
+        this.contribuinte = contribuinte;
+        this.limitcao = limitcao;
     }
+
+
     
     public Document createDoc(){
         Document doc = new Document("id", id);
         
         BasicDBList dBlist0 = new BasicDBList();
         for(Servico ser : servicos){
-            dBlist0.add(new BasicDBObject("nome", ser.getNome()));
+            dBlist0.add(new BasicDBObject("id", ser.getId())
+                .append("nome",ser.getNome())
+                .append("data",ser.getData())
+                .append("preco",ser.getPreco()));
         }              
         doc.put("servicos", dBlist0);
    
         BasicDBList dBlist1 = new BasicDBList();
         for(Exercicio ex : exercicios){
             dBlist1.add(new BasicDBObject("descricao", ex.getDescricao())
+                    .append("tipo",ex.getTipo())
                     .append("sets", ex.getnSeries())
                     .append("reps", ex.getnRepeticoes()));
         }              
@@ -51,7 +75,7 @@ public class Cliente {
                     .append("valor",fat.getValor())
                     .append("desconto",fat.getDesconto())
                     .append("funcionarioId",fat.getFuncionarioId())
-                    .append("invalida",fat.getInvalida()));
+                    .append("invalida",fat.getEstado()));
         }              
         doc.put("faturas", dBlist2);
         return doc;         
@@ -65,7 +89,12 @@ public class Cliente {
         public void addExercicio(Exercicio a){
         exercicios.add(a);
     }
-    public Integer getId() {
-        return id;
+
+    public void setMorada(Morada morada) {
+        this.morada = morada;
+    }
+
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
     }
 }

@@ -19,7 +19,7 @@ public class Fatura {
     private double valor;
     private double desconto;
     private Integer funcionarioId;
-    private String invalida;
+    private String estado;
     
     public Fatura(Integer id, Integer contribuinteGinasio, String data, String descricao, double valor, double desconto,
             Integer funcionarioId, String invalida){
@@ -30,7 +30,7 @@ public class Fatura {
         this.valor = valor;
         this.desconto = desconto;
         this.funcionarioId = funcionarioId;
-        this.invalida = invalida;
+        this.estado = invalida;
     }
     public Document createDoc(){
         Document doc = new Document("id", id)
@@ -40,7 +40,7 @@ public class Fatura {
                 .append("valor", valor)
                 .append("desconto",desconto)
                 .append("funcionarioId", funcionarioId)
-                .append("invalida",invalida);
+                .append("invalida",estado);
         return doc;
     }
 
@@ -72,8 +72,8 @@ public class Fatura {
         return funcionarioId;
     }
 
-    public String getInvalida() {
-        return invalida;
+    public String getEstado() {
+        return estado;
     }
     
 }
