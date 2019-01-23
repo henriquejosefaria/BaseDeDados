@@ -5,7 +5,8 @@ begin
            UPDATE funcionario as f
            INNER JOIN prestaservico as ps on ps.idFuncionario=f.idFuncionario
            INNER JOIN servico on  ps.idServico=NEW.idServico
-           SET f.UptoDate = 'N';
+		   SET f.UptoDate =IF(f.UptoDate = 'R', 'S','N');
+
 END;
 $$
 DELIMITER ;
@@ -16,21 +17,11 @@ AFTER INSERT ON prestaservico FOR EACH ROW
 begin
            UPDATE funcionario as f
            INNER JOIN prestaservico as ps on new.idFuncionario=f.idFuncionario
-           SET f.UptoDate = 'N';
+           SET f.UptoDate =IF(f.UptoDate = 'R', 'S','N');
 END;
 $$
 DELIMITER ;
 
-DELIMITER $$
-CREATE TRIGGER updatecliente
-AFTER INSERT ON subscreve FOR EACH ROW
-begin
-           UPDATE cliente as c
-           INNER JOIN subscreve as s on new.idCliente=c.idCliente
-           SET c.UptoDate = 'N';
-END;
-$$
-DELIMITER ;
 
 DELIMITER $$
 CREATE TRIGGER updatecliente2
@@ -38,7 +29,8 @@ AFTER INSERT ON planoexercicios FOR EACH ROW
 begin
            UPDATE cliente as c
            INNER JOIN planoexercicios as pe on new.Cliente=c.idCliente
-           SET c.UptoDate = 'N';
+		   SET c.UptoDate =IF(c.UptoDate = 'R', 'S','N');
+
 END;
 $$
 DELIMITER ;
@@ -49,7 +41,7 @@ AFTER UPDATE ON planoexercicios FOR EACH ROW
 begin
            UPDATE cliente as c
            INNER JOIN planoexercicios on c.idCliente=NEW.Cliente
-           SET c.UptoDate = 'N';
+           SET c.UptoDate =IF(c.UptoDate = 'R', 'S','N');
 END;
 $$
 DELIMITER ;
@@ -61,7 +53,7 @@ AFTER UPDATE ON fatura FOR EACH ROW
 begin
            UPDATE cliente as c
            INNER JOIN fatura on c.idCliente=NEW.idCliente
-           SET c.UptoDate = 'N';
+           SET c.UptoDate =IF(c.UptoDate = 'R', 'S','N');
 END;
 $$
 DELIMITER ;
@@ -72,7 +64,7 @@ AFTER INSERT ON fatura FOR EACH ROW
 begin
            UPDATE cliente as c
            INNER JOIN fatura on c.idCliente=NEW.idCliente
-           SET c.UptoDate = 'N';
+           SET c.UptoDate =IF(c.UptoDate = 'R', 'S','N');
 END;
 $$
 DELIMITER ;
