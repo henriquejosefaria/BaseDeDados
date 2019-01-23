@@ -22,17 +22,6 @@ $$
 DELIMITER ;
 
 DELIMITER $$
-CREATE TRIGGER updatecliente
-AFTER INSERT ON subscreve FOR EACH ROW
-begin
-           UPDATE cliente as c
-           INNER JOIN subscreve as s on new.idCliente=c.idCliente
-           SET c.UptoDate = 'N';
-END;
-$$
-DELIMITER ;
-
-DELIMITER $$
 CREATE TRIGGER updatecliente2
 AFTER INSERT ON planoexercicios FOR EACH ROW
 begin
