@@ -1,10 +1,10 @@
 DELIMITER $$
-CREATE  PROCEDURE `VerCliente_x`(in id INT(11))
+CREATE  PROCEDURE `VerCliente_x`(in id INT(11),in telemovel INT(11))
 BEGIN
 SELECT 
 		c.idCliente,
 		c.Nome,
-        c.Idade,
+        c.DataNascimento,
         c.Sexo,
         c.IMC,
         c.Peso,

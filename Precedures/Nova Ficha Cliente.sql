@@ -1,5 +1,5 @@
 DELIMITER $$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Nova Ficha de Cliente`(in nome VARCHAR(75),in idade INT,in sexo VARCHAR(1),in peso INT, in altura INT,in numerocontribuinte INT, in limitacoesfisicas VARCHAR(75),in telemovel1 INT, in telemovel2 INT ,email VARCHAR(75),rua VARCHAR(75),localidade VARCHAR(75),codigopostal VARCHAR(75))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Nova Ficha de Cliente`(in nome VARCHAR(75),in DataNascimento DATE,in sexo VARCHAR(1),in peso DECIMAL(5,2), in altura DECIMAL(4,2),in numerocontribuinte INT, in limitacoesfisicas VARCHAR(75),in telemovel1 INT, in telemovel2 INT ,email VARCHAR(75),rua VARCHAR(75),localidade VARCHAR(75),codigopostal VARCHAR(75))
 BEGIN
 DECLARE x INT;
 DECLARE y INT;
@@ -26,9 +26,9 @@ INSERT INTO contacto
 			(telemovel1,telemovel2,email);
 SET y=LAST_INSERT_ID();
 INSERT INTO cliente
-	(Nome,Sexo,Idade,idContacto,IdMorada,IMC,Peso,Altura,NumeroContribuinte,LimitacoesFisicas)
+	(Nome,Sexo,DataNascimento,idContacto,IdMorada,IMC,Peso,Altura,NumeroContribuinte,LimitacoesFisicas,UptoDate)
     Values
-		(nome,sexo,idade,x,y,z,peso,altura,numerocontribuinte,limitacoesfisicas);
+		(nome,sexo,DataNascimento,x,y,z,peso,altura,numerocontribuinte,limitacoesfisicas,'S');
         COMMIT;
  END$$
  
