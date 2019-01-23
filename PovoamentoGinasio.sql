@@ -52,28 +52,28 @@ INSERT INTO morada
         
         
 INSERT INTO Cliente 
-	(Nome, Sexo, DataNascimento, idContacto, idMorada, IMC, Peso, Altura,NumeroContribuinte,LimitacoesFisicas )
+	(Nome, Sexo, DataNascimento, idContacto, idMorada, IMC, Peso, Altura,NumeroContribuinte,LimitacoesFisicas,UptoDate)
 	VALUES 
-		('João Paulo Silva Freitas','M', '1998-10-10', 1, 1,23.2 , 80.7, 1.86, 384968373,null),
-		('Joana Amaral Canesi Gomes','F', '1997-11-12' , 2, 2, 25.3, 75 , 1.75, 384757394,null),
-		('Luís Vitor Costa','M','1988-10-07' ,3 , 3, 32.6, 94, 1.81,485963744 ,null),
-		('Pedro Simões Cardoso','M','1996-12-01' , 4, 4, 20.7,79 , 1.87, 586734747,null),
-		('José Pedro Campos Silva ','M','1995-10-07' ,5 , 5, 27, 87.2, 1.78, 485737263,null),
-		('Ana Salva Gatore Resende','F','2000-1-10' ,6 , 6, 26.1, 69.2, 1.53, 457463635,'nanismo'),
-		('Silvia Domingues Santos','F','2001-12-10' ,7 , 7, 28.2, 76, 1.49, 584736463,'nanismo'),
-		('Salvador Sabrosa Vidal','M','1988-5-22' ,8 , 8, 26.1, 86.4, 1.70, 567362635,'reumatismo'),
-		('Nunu Uzumaki Tristão','M','2001-12-10',9 , 9, 29.4, 84.5, 1.78, 506795847,'asma'),
-		('Rafael Penedo Feio ','M','1996-02-10',10 , 10, 23.2, 86.3, 1.97, 458677947,'esclerose lateral'),
-		('Jonas Suares Sousa','M','1996-05-22' ,11 , 11, 22.1, 76.3, 1.86, 346678645,null),
-		('Carlos Manuel Cartola','M','1998-10-20', 12, 12, 21.5, 73.2, 1.76, 968372621,null),
-		('Filipe Peso Pesado','M','1993-11-11' , 13, 13, 31.5, 75.4, 1.85, 485769485,null),
-		('Hugo Pena pesada','M','1998-11-25' , 14, 14, 36.4, 83.6, 1.89, 485768473,null),
-		('Jacito Leite Portugal','M','1996-11-29' , 15, 15, 25.1, 79.9, 1.71,485977373 ,null),
-		('Parvalhoti Pampam Pam','M','1979-12-10' , 16, 16, 26.9, 82.9, 1.78, 495686743,'asma'),
-		('Salvio Salvio Salvio','M','1980-10-30' , 17, 17, 23.3, 74.7, 1.86, 384759674,null),
-		('Manuel Machado Costa','M', '1996-3-10', 18, 18, 34.1, 99.5, 1.75, 594837455,null),
-		('Sousa Silva Sozinho','M','1997-05-15' , 19, 19, 20.1, 69.8, 1.73, 978572734,null),
-		('Alvaro Campos','M','1993-04-22' , 20, 20, 21.5, 71.2, 1.86, 485867545,null);
+		('João Paulo Silva Freitas','M', '1998-10-10', 1, 1,23.2 , 80.7, 1.86, 384968373,null,'S'),
+		('Joana Amaral Canesi Gomes','F', '1997-11-12' , 2, 2, 25.3, 75 , 1.75, 384757394,null,'S'),
+		('Luís Vitor Costa','M','1988-10-07' ,3 , 3, 32.6, 94, 1.81,485963744 ,null,'S'),
+		('Pedro Simões Cardoso','M','1996-12-01' , 4, 4, 20.7,79 , 1.87, 586734747,null,'S'),
+		('José Pedro Campos Silva ','M','1995-10-07' ,5 , 5, 27, 87.2, 1.78, 485737263,null,'S'),
+		('Ana Salva Gatore Resende','F','2000-1-10' ,6 , 6, 26.1, 69.2, 1.53, 457463635,'nanismo','S'),
+		('Silvia Domingues Santos','F','2001-12-10' ,7 , 7, 28.2, 76, 1.49, 584736463,'nanismo','S'),
+		('Salvador Sabrosa Vidal','M','1988-5-22' ,8 , 8, 26.1, 86.4, 1.70, 567362635,'reumatismo','S'),
+		('Nunu Uzumaki Tristão','M','2001-12-10',9 , 9, 29.4, 84.5, 1.78, 506795847,'asma','S'),
+		('Rafael Penedo Feio ','M','1996-02-10',10 , 10, 23.2, 86.3, 1.97, 458677947,'esclerose lateral','S'),
+		('Jonas Suares Sousa','M','1996-05-22' ,11 , 11, 22.1, 76.3, 1.86, 346678645,null,'S'),
+		('Carlos Manuel Cartola','M','1998-10-20', 12, 12, 21.5, 73.2, 1.76, 968372621,null,'S'),
+		('Filipe Peso Pesado','M','1993-11-11' , 13, 13, 31.5, 75.4, 1.85, 485769485,null,'S'),
+		('Hugo Pena pesada','M','1998-11-25' , 14, 14, 36.4, 83.6, 1.89, 485768473,null,'S'),
+		('Jacito Leite Portugal','M','1996-11-29' , 15, 15, 25.1, 79.9, 1.71,485977373 ,null,'S'),
+		('Parvalhoti Pampam Pam','M','1979-12-10' , 16, 16, 26.9, 82.9, 1.78, 495686743,'asma','S'),
+		('Salvio Salvio Salvio','M','1980-10-30' , 17, 17, 23.3, 74.7, 1.86, 384759674,null,'S'),
+		('Manuel Machado Costa','M', '1996-3-10', 18, 18, 34.1, 99.5, 1.75, 594837455,null,'S'),
+		('Sousa Silva Sozinho','M','1997-05-15' , 19, 19, 20.1, 69.8, 1.73, 978572734,null,'S'),
+		('Alvaro Campos','M','1993-04-22' , 20, 20, 21.5, 71.2, 1.86, 485867545,null,'S');
         
 INSERT INTO contactofuncionario
 	(idContacto,NrTelemovel,NrTelemovel2,Email)
