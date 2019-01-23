@@ -14,8 +14,7 @@ SET M.rua =IF(rua IS NOT NULL, rua, M.rua),
     C.NrTelemovel2 =IF(NrTelemovel2 IS NOT NULL OR (NrTelemovel2 > 900000000 AND NrTelemovel2 < 999999999), nrTelemovel2, C.NrTelemovel2),
     C.Email =IF(email IS NOT NULL, email, C.Email),
     funcionario.sexo =IF(sexo IS NOT NULL, sexo, funcionario.Sexo),
-    funcionario.cargo =IF(cargo IS NOT NULL, cargo, funcionario.Cargo),
-    funcionario.UptoDate = 'N'
+    funcionario.cargo =IF(cargo IS NOT NULL, cargo, funcionario.Cargo)
 WHERE funcionario.idFuncionario = id;
 END$$
 
