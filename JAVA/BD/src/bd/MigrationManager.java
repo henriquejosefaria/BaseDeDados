@@ -195,7 +195,7 @@ public class MigrationManager {
             ResultSet rsCliente = pstCliente.executeQuery();     
             while (rsCliente.next()) {
                 Cliente cliente = new Cliente(rsCliente.getInt(1),rsCliente.getString(2),rsCliente.getString(3),rsCliente.getString(4),rsCliente.getDouble(7),rsCliente.getDouble(8),rsCliente.getDouble(9),
-                rsCliente.getInt(10),rsCliente.getString(11));
+                rsCliente.getInt(10),rsCliente.getString(11),rsCliente.getString(12));
                 cliente.setContacto(clienteContactos.get(rsCliente.getInt(5)));
                 cliente.setMorada(clienteMoradas.get(rsCliente.getInt(6)));
                 clientes.put(cliente.getId(),cliente);
@@ -238,18 +238,56 @@ public class MigrationManager {
                 faturas.put(rsFatura.getInt(1),fat);
             }
             System.out.println("Faturas loaded from MySQL DB: " + faturas.size());
-            
+            int k = 0;
             int i = 0;
             for(Cliente c : clientes.values()){
+                if(c.getId()<=lastNoSQLFuncionarioId){
+                     if(c.getUpToDate().equals("N")){
+                         BasicDBList servs = new BasicDBList();
+        for(Servico ser : c.getServicos()){
+            servs.add(new BasicDBObject("id", ser.getId())
+                .append("nome",ser.getNome())
+                .append("data",ser.getData())
+                .append("preco",ser.getPreco()));
+                     }
+        BasicDBList exercs = new BasicDBList();
+        for(Exercicio ex : c.getExercicios()){
+            exercs.add(new BasicDBObject("id",ex.getId())
+                    .append("descricao", ex.getDescricao())
+                    .append("tipo",ex.getTipo())
+                    .append("sets", ex.getnSeries())
+                    .append("reps", ex.getnRepeticoes())
+                    .append("estado",ex.getEstado()));
+        }   
+        BasicDBList fats = new BasicDBList();
+        for(Fatura fat : c.getFaturas()){
+            fats.add(new BasicDBObject("id", fat.getId())
+                    .append("contribuinteGinasio", fat.getContribuinteGinasio())
+                    .append("data", fat.getData())
+                    .append("descricao",fat.getDescricao())
+                    .append("valor",fat.getValor())
+                    .append("desconto",fat.getDesconto())
+                    .append("funcionarioId",fat.getFuncionarioId())
+                    .append("invalida",fat.getEstado()));
+        }         
+        
+                         
+                        BasicDBObject newFunc = new BasicDBObject().append("$set", new  BasicDBObject("imc", c.getImc()).append("peso",c.getPeso()).append("altura",c.getAltura()).append("servicos",servs).append("exercicios",exercs).append("faturas",fats));
+                        funcionariocol.updateOne(new BasicDBObject().append("id", c.getId()), newFunc);
+                        k++;
+                     }}
+                
+                else{
                 Document doc = c.createDoc();
                 clientecol.insertOne(doc);
                 i++;
+                }
             }
             System.out.println(i +" Clientes inserted on NoSQL DB");
             i=0;
             
-            int k = 0;
-            
+
+            k = 0;
             for(Fatura fat : faturas.values()){
                 if(fat.getId()<=lastNoSQLFaturaId){
                     if(fat.getUptoDate().equals("N")){
@@ -314,7 +352,23 @@ public class MigrationManager {
             }
             System.out.println(k+" Servicos updated on NoSQL DB");
             System.out.println(i+" Servicos inserted on NoSQL DB");
-          
+            
+            String query20 = "UPDATE cliente SET UptoDate = 'R' where UptoDate = 'N';";
+            PreparedStatement pstc = con.prepareStatement(query20);
+            pstc.execute();
+            
+                        String query21 = "UPDATE servico SET UptoDate = 'R' where UptoDate = 'N';";
+            PreparedStatement psts = con.prepareStatement(query21);
+            psts.execute();
+            
+            
+                        String query23 = "UPDATE fatura SET UptoDate = 'R' where UptoDate = 'N';";
+            PreparedStatement pstfa = con.prepareStatement(query23);
+            pstfa.execute();
+            
+                        String query25 = "UPDATE funcionario SET UptoDate = 'R' where UptoDate = 'N';";
+            PreparedStatement pstf = con.prepareStatement(query25);
+            pstf.execute();
 
         }catch (SQLException e) {
             throw new IllegalStateException("Cannot connect to the MySQL database!", e);

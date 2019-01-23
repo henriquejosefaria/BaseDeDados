@@ -25,14 +25,16 @@ public class Cliente {
     private double altura;
     private int contribuinte;
     private String limitacao;
+    private String upToDate;
     private Morada morada;
     private Contacto contacto;
     private ArrayList<Exercicio> exercicios = new ArrayList<>();
     private ArrayList<Servico> servicos = new ArrayList<>();
     private ArrayList<Fatura> faturas = new ArrayList<>();
 
-    public Cliente(Integer id,String nome, String sexo, String dataNascimento, double imc, double peso, double altura, int contribuinte, String limitcao) {
+    public Cliente(Integer id,String nome, String sexo, String dataNascimento, double imc, double peso, double altura, int contribuinte, String limitcao,String upToDate) {
         this.id = id;
+        this.upToDate = upToDate;
         this.nome = nome;
         this.sexo = sexo;
         this.dataNascimento = dataNascimento;
@@ -43,6 +45,34 @@ public class Cliente {
         this.limitacao = limitcao;
     }
 
+    public String getUpToDate() {
+        return upToDate;
+    }
+
+    public ArrayList<Exercicio> getExercicios() {
+        return exercicios;
+    }
+
+    public ArrayList<Servico> getServicos() {
+        return servicos;
+    }
+
+    public ArrayList<Fatura> getFaturas() {
+        return faturas;
+    }
+
+    public double getImc() {
+        return imc;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+    
     
     public Document createDoc(){
         Document doc = new Document("id", id)
