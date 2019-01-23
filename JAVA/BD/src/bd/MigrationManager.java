@@ -48,6 +48,7 @@ public class MigrationManager {
     private int lastNoSQLFaturaId;
     private int lastNoSQLFuncionarioId;
     private int lastNoSQLServicoId;
+    private int lastNoSQLClienteId;
     
     public MigrationManager() throws SQLException{
         funcionarios = new HashMap<>();
@@ -60,6 +61,7 @@ public class MigrationManager {
         clienteMoradas = new HashMap<>();
         funcMoradas = new HashMap<>();
         lastNoSQLFaturaId = 0;
+        lastNoSQLClienteId = 0;
         lastNoSQLFuncionarioId = 0;
         lastNoSQLServicoId = 0;
         
@@ -75,7 +77,6 @@ public class MigrationManager {
         
         MongoDatabase database = mongoClient.getDatabase("ginasio");
         MongoCollection<Document> clientecol = database.getCollection("cliente");
-        clientecol.drop();
         MongoCollection<Document> funcionariocol = database.getCollection("funcionario");
         MongoCollection<Document> servicocol = database.getCollection("servico");
         MongoCollection<Document> faturacol = database.getCollection("fatura");
@@ -129,6 +130,15 @@ public class MigrationManager {
                 lastNoSQLServicoId = (Integer)ole.get("id");
             }
             System.out.println("Last Servico ID loaded from NOsql DB: " + lastNoSQLServicoId);
+            
+            BasicDBObject  sertcli = new BasicDBObject();
+            sertcli.put("id",-1);
+            MongoCursor<Document> cursorCli = clientecol.find().sort(sertcli).limit(1).iterator();
+            while(cursorCli.hasNext()){
+                Document ole = cursorCli.next();
+                lastNoSQLClienteId = (Integer)ole.get("id");
+            }
+            System.out.println("Last Cliente ID loaded from NOsql DB: " + lastNoSQLClienteId);
             
             ///////
             PreparedStatement pstmoradac = con.prepareStatement(query9);
@@ -241,7 +251,7 @@ public class MigrationManager {
             int k = 0;
             int i = 0;
             for(Cliente c : clientes.values()){
-                if(c.getId()<=lastNoSQLFuncionarioId){
+                if(c.getId()<=lastNoSQLClienteId){
                      if(c.getUpToDate().equals("N")){
                          BasicDBList servs = new BasicDBList();
         for(Servico ser : c.getServicos()){
@@ -273,7 +283,7 @@ public class MigrationManager {
         
                          
                         BasicDBObject newFunc = new BasicDBObject().append("$set", new  BasicDBObject("imc", c.getImc()).append("peso",c.getPeso()).append("altura",c.getAltura()).append("servicos",servs).append("exercicios",exercs).append("faturas",fats));
-                        funcionariocol.updateOne(new BasicDBObject().append("id", c.getId()), newFunc);
+                        clientecol.updateOne(new BasicDBObject().append("id", c.getId()), newFunc);
                         k++;
                      }}
                 
@@ -284,6 +294,7 @@ public class MigrationManager {
                 }
             }
             System.out.println(i +" Clientes inserted on NoSQL DB");
+            System.out.println(k +" Clientes Updated on NoSQL DB");
             i=0;
             
 
