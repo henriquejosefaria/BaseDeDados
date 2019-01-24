@@ -1,0 +1,37 @@
+\chapter{Reescrita das \emph{queries} implementadas no projeto relacional}
+
+Aqui, apresentamos as \emph{queries} definidas na versão em mySQL do projeto reescritas para a implementação em MongoDB.
+
+\begin{lstlisting}[caption=Calcular o total faturado]
+    db.fatura.aggregate([{$group: {_id:"Faturas", total: {$sum:"$valor"}}}])
+\end{lstlisting}
+
+%\section{Listar todos os clientes do ginásio}
+\begin{lstlisting}[caption=Listar todos os clientes do ginásio]
+    db.createView("ViewCliente", "cliente", [{$project:{_id:0, id:1, nome:1, sexo:1, dataNascimento:1, imc:1, peso:1, altura:1, contribuinte:1, limitacao:1, morada:1, contacto:1, exercicios:1, servicos:1, faturas:1}}]);
+\end{lstlisting}
+
+%\section{Implementação da \emph{view} que mostra todos os funcionários}
+\begin{lstlisting}[caption=Listar todos os funcionários]
+    db.createView("ViewFuncionarios", "funcionario", [{$project:{_id:0, id:1, nome:1, data:1, sexo:1, cargo:1, contacto:1, morada:1}}]);
+\end{lstlisting}
+
+%\section{Implementação da \emph{view} que mostra todos os planos de exercícios}
+\begin{lstlisting}[caption=Listar todos os planos de exercícios de um cliente]
+    db.createView("ExerciciosPorCliente", "cliente", [{$project:{_id:0, id:1, nome:1, "exercicios.descricao":1, "exercicios.sets":1, "exercicios.reps":1}}]);
+\end{lstlisting}
+
+%\section{Implementação da \emph{view} que mostra todos as faturas}
+\begin{lstlisting}[caption=Listar todas as faturas]
+    db.createView("ViewFaturas", "fatura", [{$project:{_id:0, id:1, contribuinteGinasio:1, data:1, descricao:1, valor:1, desconto:1, nomeCliente:1, nomeRececionista:1}}]);
+\end{lstlisting}
+
+%\section{Implementação da \emph{view} que mostra os serviço que cada funcionário faz}
+\begin{lstlisting}[caption=Listar os serviço que cada funcionário faz]
+    db.createView("ServicosFuncionario", "funcionario", [{$project:{_id:0, nome:1, cargo:1, "servicos.nome":1}}]);
+\end{lstlisting}
+
+%\section{Implementação da \emph{view} que mostra a que serviços os clientes estão subscritos}
+\begin{lstlisting}[caption=Listar a que serviços os clientes estão subscritos]
+    db.createView("TodasSubscricoesClientes", "cliente", [{$project:{_id:0, id:1, nome:1, "servicos.nome":1, "servicos.data":1}}]);
+\end{lstlisting}

@@ -1,0 +1,71 @@
+\section{Validação do modelo através da normalização}
+
+\subsection{Dependências Funcionais}
+
+\noindent
+\\\textbf{Cliente:}
+\\ClienteID ®  Nome, Idade, Sexo, Peso, Altura, IMC, Limitações Físicas,  NrContribuinte, idContacto, idMorada
+\\NrContribuinte ® ClienteID, Nome, Idade, Sexo, Peso, Altura, IMC, Limitações Físicas, idContacto, idMorada
+\\idContacto ® ClienteID, Nome, Idade, Sexo, Peso, Altura, IMC, Limitações Físicas, NrContribuinte, idMorada
+
+\noindent
+\\\textbf{Contacto:}
+\\idContacto ® Telemóvel 1, Telemóvel 2, Email
+
+\noindent
+\\\textbf{Morada:}
+\\idMorada ® Rua, Localidade, CodigoPostal
+
+\noindent
+\\\textbf{Serviço:}
+\\ServiçoID ® Designação, Preço
+
+\noindent
+\\\textbf{Fatura:}
+\\FaturaID ® Contribuinte Empresa, Data, Desconto, Descrição, Valor, ClienteID, FuncionárioID
+
+\noindent
+\\\textbf{Funcionário:}
+\\FuncionárioID ® Nome, Cargo, Idade, idContacto, idMorada
+
+\noindent
+\\\textbf{ContactoFuncionario:}
+\\idContacto ® Telemóvel 1, Telemóvel 2, Email
+
+\noindent
+\\\textbf{MoradaFuncionario:}
+\\idMorada ® Rua, Localidade, CodigoPostal
+
+\noindent
+\\\textbf{Exercício:}
+\\ExercícioID ® Designação, Tipo de Exercício
+
+\noindent
+\\\textbf{Equipamento:}
+\\EquipamentoID ® Descrição, Nome
+
+\noindent
+\\\textbf{Subscreve:}
+\\ClienteID, ServiçoID ® Data Subscrição
+
+\noindent
+\\\textbf{E prestado por:}
+\\ServiçoID, FuncionárioID ® Data Início
+
+\noindent
+\\\textbf{Plano Exercícios:}
+\\ClienteID, ExercicioID ® Numero de Repetições, Numero de Series
+
+
+
+\subsection{Primeira Forma Normal (1FN)}
+
+Todas as relações estão na Primeira Forma Normal, pois, para cada relação, a interseção de uma linha e uma coluna contém apenas um valor.
+
+\subsection{Segunda Forma Normal (2FN)}
+
+As relações estão na Segunda Forma Normal, pois cada relação está na 1FN e todos os atributos não chave primária dessa relação dependem da totalidade da chave primária.
+
+\subsection{Terceira Forma Normal (3FN)}
+
+As relações estão na Terceira Forma Normal, pois cada relação está na 1FN e na 2FN e todos os atributos não chave primária dessa relação e dependem diretamente da chave primária, ou seja, não existem dependências transitivas.

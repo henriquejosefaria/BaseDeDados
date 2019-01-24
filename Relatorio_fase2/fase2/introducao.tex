@@ -1,0 +1,26 @@
+\chapter{Utilização de um sistema NoSQL}
+
+Existem grandes vantagens em optar por um sistema não relacional (como o MongoDB) em vez de uma base de dados relacional:
+
+\begin{itemize}
+    \item  Consultas muito simples, mais fáceis de escrever, mais rápidas a executar e mais fáceis de ajustar às necessidades do inquiridor.
+
+    \item Escalabilidade: um sistema SQL tem grandes problemas de escalabilidade.
+
+    \item É suscetível a alterações conforme o desenvolvimento do ginásio, permitindo facilmente alterar e adicionar novas entidades e atributos ao esquema.
+
+    \item Sharding: Sharding é um conceito simples: se tivermos uma quantidade enorme de dados de tal forma que o disco esteja praticamente cheio, a resposta é ter esse mesmos dados divididos entre várias máquinas. Para além de obtermos maior capacidade de armazenamento, também adquirimos maior rendimento. Como com o passar do tempo tanto a capacidade como a rapidez das bases de dados precisa de aumentar, basta aumentar o número de shards.
+
+    \item GridFS: Normalmente quando queremos guardar uma foto numa base de dados guardamos o caminho para chegar a esta na nossa máquina.
+    Com o GridFS podemos facilmente guardar arquivos desses na base de dados. O MongoDB foi construido tendo isso em conta, permitindo replicação e sharding desses mesmos arquivos, fornecendo a "backbone" de um sistema de arquivos partilhados.
+
+\end{itemize}
+
+No entanto, para o caso do ginásio, a utilização de um sistema NoSQL \textbf{não se justifica}, porque:
+\begin{itemize}
+    \item a base de dados é para um pequeno ginásio local. Como tal, este vai conter pequena quantidade de dados, não criando qualquer problema de escalabilidade num sistema SQL;
+    \item trata-se de um modelo lógico bastante simples e estruturado;
+    \item a base de dados estará sujeita a muitas operações de escrita. Devido à natureza desnormalizada de um sistema não relacional, tal teria um impacto negativo no desempenho da BD.
+\end{itemize}
+
+No entanto, no âmbito da disciplina, criaremos um sistema NoSQL de consulta utilizando o MongoDB. O sistema armazenará os dados necessários à execução de todas as queries, tendo um esquema otimizado para uma velocidade superior de execução de queries, quando comparado ao sistema relacional. Para tal, as escritas na BD serão feitas no sistema relacional, a partir do qual, após uma quantidade arbitrária de tempo, um programa atualizará o sistema NoSQL, que poderá receber e satisfazer queries.

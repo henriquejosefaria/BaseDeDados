@@ -1,0 +1,14 @@
+\chapter{Migração}
+\label{chapter:migracao}
+Este processo de migração começou com a decisão da estrutura das nossas \emph{collections} de forma a tirar o máximo proveito das funcionalidades deste tipo de base de dados.
+Depois de termos todos os documentos esquematizados passamos então ao \emph{parse} dos dados da nossa base de dados a fim de podermos preencher os nossos documentos. Para isso, utilizamos uma pequena interface feita em Java que nos permitiu criar uma ponte entre estes dois sistemas (MySQL e NoSQL) formatando os dados da base de dados inicial em função das necessidades da nossa base de dados Mongo.\par
+Inicialmente, com as bibliotecas do Java, criamos uma ligação à nossa base de dados MySQL para termos acesso aos seus dados. De seguida, com o auxilio de várias classes necessárias para organizar os dados, lemos e carregamos toda a informação da base de dados para memória. Posto isto, reorganizamos todos os dados de forma a prepararmos o conteúdo da nossa base de dados não relacional. Criamos também uma ligação para a nossa base de dados Mongo com a ajuda de bibliotecas Java, mais uma vez. \par
+Por fim, depois de todos os dados carregados, estruturados e reorganizados, criamos todos os documentos e inserímo-los na base de dados NoSQL.
+
+Com o intuito de maximizar este processo de migração tivemos dois aspectos em conta.
+O primeiro aspecto foram as inserções novas na base de dados MySQL. Para maximizar o desempenho da migração tentamos minimizar o número de operações de leitura e escrita nos dois sistemas. Assim, apenas são inseridos na base de dados NoSQL documentos que ainda não tenham sido inseridos anteriormente. Fazemos isto verificando o último ID inserido em cada \emph{collection} da nossa base de dados em Mongo. 
+
+Outro aspecto fundamental da migração é manter a consistência dos dois sistemas usados. Assim, tivemos de prestar especial atenção aos \emph{updates} realizados na base de dados MySQL e que impacto teriam na migração. Mais uma vez, com o intuito de maximizar o desempenho da migração criamos um novo atributo no sistema MySQL chamado UptoDate que nos diz se um determinado elemento da tabela foi atualizado. Desta forma, conseguimos ver quais foram os elementos que foram atualizados na base de dados MySQL e atualizá-los também na NoSQL. Assim, para minimizar o impacto negativo na migração, verificamos se os dados já foram inseridos anteriormente na base de dados ou se foram atualizados, diminuindo bastante o número de operações de escrita no sistema NoSQL.
+
+
+

@@ -1,0 +1,173 @@
+\chapter{Modelação do sistema para uma \emph{Document Store}}
+
+Como afirmado anteriormente, decidimos modelar esta BD não relacional para priorizar o desempenho da execução de queries. Para tal, desnormalizamos a BD, organizando a informação de modo a que toda a informação necessária para a realização de uma query esteja na mesma \emph{collection}.
+
+Decidimos criar quatro \emph{collections}:
+\begin{itemize}
+    \item cliente
+    \item fatura
+    \item funcionario
+    \item servico
+\end{itemize}
+
+Para cada coleção, armazenamos os seguintes atributos (ver tabela \ref{tab:noSQLatributos}):
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cl|c|l|}
+\hline
+\multicolumn{1}{|c|}{\multirow{14}{*}{\textbf{cliente}}} & id                 & \multirow{8}{*}{\textbf{funcionario}} & id                   \\
+\multicolumn{1}{|c|}{}                                   & nome               &                                       & nome                 \\
+\multicolumn{1}{|c|}{}                                   & sexo               &                                       & sexo                 \\
+\multicolumn{1}{|c|}{}                                   & data de nascimento &                                       & data de nascimento   \\
+\multicolumn{1}{|c|}{}                                   & imc                &                                       & cargo                \\
+\multicolumn{1}{|c|}{}                                   & peso               &                                       & morada               \\
+\multicolumn{1}{|c|}{}                                   & altura             &                                       & contacto             \\
+\multicolumn{1}{|c|}{}                                   & contribuinte       &                                       & servicos             \\ \cline{3-4} 
+\multicolumn{1}{|c|}{}                                   & limitacao          & \multirow{11}{*}{\textbf{fatura}}     & id                   \\
+\multicolumn{1}{|c|}{}                                   & morada             &                                       & contribuinteGinasio  \\
+\multicolumn{1}{|c|}{}                                   & contacto           &                                       & nomeFuncionario      \\
+\multicolumn{1}{|c|}{}                                   & servicos           &                                       & nomeCliente          \\
+\multicolumn{1}{|c|}{}                                   & exercicios         &                                       & NContribuinteCliente \\
+\multicolumn{1}{|c|}{}                                   & faturas            &                                       & data                 \\ \cline{1-2}
+\multicolumn{1}{|c|}{\multirow{4}{*}{\textbf{servico}}}  & id                 &                                       & descricao            \\
+\multicolumn{1}{|c|}{}                                   & nome               &                                       & valor                \\
+\multicolumn{1}{|c|}{}                                   & preco              &                                       & desconto             \\
+\multicolumn{1}{|c|}{}                                   & estado             &                                       & funcionarioId        \\ \cline{1-2}
+\multicolumn{1}{l}{}                                     &                    &                                       & estado               \\ \cline{3-4} 
+\end{tabular}
+\caption{Atributos armazenados para cada coleção}
+\label{tab:noSQLatributos}
+\end{table}
+
+Após a migração (abordada no capítulo \ref{chapter:migracao}), esta modelação resulta em documentos como os exemplos que podem ser observados nas \emph{listings} \ref{json:clientes}, \ref{json:faturas}, \ref{json:funcionarios} e \ref{json:servicos}
+
+%Clientes
+\begin{lstlisting}[caption={Exemplo de documento: cliente},label={json:clientes}]
+{
+    "_id" : ObjectId("5c3e4621ada3f40448da749a"),
+    "id" : 1,
+    "nome" : "João Paulo Silva Freitas",
+    "sexo" : "M",
+    "dataNascimento" : "1998-10-10",
+    "imc" : 23.2,
+    "peso" : 80.7,
+    "altura" : 1.86,
+    "contribuinte" : 384968373,
+    "limitcao" : null,
+    "morada" : {
+        "rua" : "Rua dos peoes",
+        "localidade" : "Vila Verde",
+        "codigoPostal" : "4730-490"
+    },
+    "contacto" : {
+        "tele1" : 965499765,
+        "tele2" : 0,
+        "email" : "quantosqueres@outlook.com"
+    },
+    "servicos" : [ 
+        {
+            "id" : 2,
+            "nome" : "Natação,Passe mensal",
+            "data" : "2018-04-20 00:00:00",
+            "preco" : 30.0
+        }, 
+        {
+            "id" : 9,
+            "nome" : "Sauna, Passe diario",
+            "data" : "2018-04-20 00:00:00",
+            "preco" : 3.0
+        }
+    ],
+    "exercicios" : [ 
+        {
+            "id" : 1,
+            "descricao" : "Agachamentos",
+            "tipo" : "Pernas",
+            "sets" : 4,
+            "reps" : 10,
+            "estado" : "A"
+        }, 
+        {
+            "id" : 5,
+            "descricao" : "Curl Invertido",
+            "tipo" : "Bícep",
+            "sets" : 4,
+            "reps" : 10,
+            "estado" : "A"
+        },
+        {
+            "id" : 20,
+            "descricao" : "Elevações Frontais Halteres",
+            "tipo" : "Ombros",
+            "sets" : 4,
+            "reps" : 10,
+            "estado" : "A"
+        }
+    ],
+    "faturas" : [ 
+        {
+            "id" : 1,
+            "contribuinteGinasio" : 111111111,
+            "data" : "2018-01-05",
+            "descricao" : "Natação, Mensal & Ginásio, Mensal, PersonalTrainer",
+            "valor" : 150.0,
+            "desconto" : 30.0,
+            "funcionarioId" : 7,
+            "invalida" : "A"
+        }
+    ]
+}
+\end{lstlisting}
+
+%Faturas
+\begin{lstlisting}[caption={Exemplo de documento: fatura},label={json:faturas}]
+{
+    "_id" : ObjectId("5c3e649045eb9b1e442bb13c"),
+    "id" : 1,
+    "contribuinteGinasio" : 111111111,
+    "nomeFuncionario" : "Jafar Strogonof",
+    "nomeCliente" : "João Paulo Silva Freitas",
+    "NContribuinteCliente" : 384968373,
+    "data" : "2018-01-05",
+    "descricao" : "Natação, Mensal & Ginásio, Mensal, PersonalTrainer",
+    "valor" : 150.0,
+    "desconto" : 30.0,
+    "funcionarioId" : 7,
+    "estado" : "A"
+}
+\end{lstlisting}
+
+%Funcionarios
+\begin{lstlisting}[caption={Exemplo de documento: funcionario},label={json:funcionarios}]
+{
+    "_id" : ObjectId("5c3e4621ada3f40448da74c2"),
+    "id" : 1,
+    "nome" : "Josef Stalini",
+    "data" : "1990-12-10",
+    "sexo" : "M",
+    "cargo" : "Empregado de Limpeza",
+    "morada" : {
+        "rua" : "Rua de Pousada",
+        "localidade" : "Gualtar",
+        "codigoPostal" : "4710-049"
+    },
+    "contacto" : {
+        "tele1" : 967541987,
+        "tele2" : 0,
+        "email" : "stanilipastarini@outlook.com"
+    },
+    "servicos" : []
+}
+\end{lstlisting}
+
+%Serviços
+\begin{lstlisting}[caption={Exemplo de documento: servicos},label={json:servicos}]
+{
+    "_id" : ObjectId("5c3e4f7cada3f43294a289cc"),
+    "id" : 1,
+    "nome" : "Natação,Passe diario",
+    "preco" : 5.0,
+    "estado" : "A"
+}
+\end{lstlisting}

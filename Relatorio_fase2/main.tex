@@ -1,0 +1,118 @@
+\documentclass[a4paper, twoside]{report}
+
+%% Language and font encodings
+\usepackage[portuges]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{verbatim}
+%%%%% Estes dois packages servem para mudar a fonte para Calibri, a mesma do template do professor. Demora demasiado tempo a compilar para o overleaf, portanto tem de se fazer download e compilar localmente antes de se entregar.
+%%%%% \usepackage{fontspec}
+%%%%% \setmainfont{Calibri}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm, paperwidth=210mm,textwidth=160mm]{geometry}
+%% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{multirow}
+
+
+
+\title{Ginásio do Miguel}
+\author{Adelino Miguel Alves Silva, A82549\\
+        Henrique José Carvalho Faria, A82200\\
+        Luís Filipe da Costa Cunha, A83099\\
+        Miguel Ângelo Moreira Ramos Brandão, A82349}
+% Update supervisor and other title stuff in title/title.tex
+
+\usepackage{listings}
+\usepackage{color}
+\usepackage{rotating}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=SQL,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+
+\begin{document}
+\input{title/title.tex}
+
+\renewcommand{\abstractname}{Resumo}
+
+\begin{abstract}
+Este projeto consiste na criação de uma base de dados para o Sr.Miguel, o dono de um pequeno ginásio que viu um aumento exponencial no número de clientes nas últimas semanas e como tal necessitou de uma estrutura para  organizar os seus dados.\par
+Com o intuito, de criar uma base de dados que satisfaça todas as necessidades requeridas pelo nosso cliente, e para que esta consiga suportar e organizar todos os dados necessários, de forma correta e moderada, foi realizada uma pesquisa exaustiva acerca do funcionamento do ginásio do senhor Miguel. Esta pesquisa consistiu em várias observações presenciais, contacto com os operários regulares do ginásio e claro, esclarecimento, com a administração do ginásio, dos principais objetivos que o ginásio pretendia alcançar com a implementação desta base de dados.\par
+No final da análise presencial, e do levantamento de todos os requisitos necessários para cumprir com as expetativas do nosso cliente, começamos a desenvolver a base de dados. Inicialmente elaboramos um modelo conceptual, para confirmar se os requerimentos levantados iam ao encontro do pretendido pelo Sr.Miguel. Depois de todo o modelo estar devidamente corrigido e validado, procedemos  para a criação do modelo lógico. Aqui foi onde começamos a dar forma à estrutura lógica da base de dados. Transformamos toda a informação visual do modelo conceptual em estruturação lógica para finalmente, depois da validação e confirmação do modelo lógico, passarmos á criação do modelo Físico. Foi nesta fase que demos origem a todas as funcionalidades requeridas pelo nosso cliente. Finalmente, o cliente pode ver a base de dados em funcionamento, realizando todas as operações por ele requeridas e guardando, organizando e gerindo todos os dados do seu Ginásio.
+
+\par Toda a metodologia utilizada ao longo do trabalho é a apresentada pelo livro "A Practical Approach toDesign, Implementation, and Management."  \cite{dbsys} 
+
+\subsection*{Palavras Chave}
+Sistema de Base de Dados Relacional, Modelo Conceptual, Modelo Lógico, Modelo Físico, Notação Peter Chen, Modelo ER, Entidades, Atributos, Relacionamentos, Java, Sistema de Base de Dados não Relacional, MySQL, NoSQL, MongoDB, SQL.
+
+\end{abstract}
+
+%% TODO
+% verificar que está tudo direito nas tabelas de atributos e assim
+%mecanismos de segurança noSQL?
+
+
+\tableofcontents
+\listoffigures
+\listoftables
+\lstlistoflistings
+
+\part{Projeto de um Sistema de Bases de Dados Relacional}
+\input{definicao/definicaoSistema.tex}
+\input{requisitos/levantametoRequisitos.tex}
+\input{Conceptual/conceptual.tex}
+\input{modelacao_logica/modelacao_logica.tex}
+\input{implementacao_fisica/implementacao_fisica.tex}
+\input{conclusion/conclusion.tex}
+
+\part{Projeto de um Sistema de Bases de Dados não Relacional}
+\input{fase2/introducao.tex}
+\input{fase2/modelacao.tex}
+\input{fase2/migracao.tex}
+\input{fase2/queries.tex}
+\input{fase2/conclusao.tex}
+
+\chapter*{Lista de Siglas e Acrónimos}
+\begin{table}[h]
+    \begin{tabular}{ll}
+    % Meter as siglas usadas aqui
+    \textbf{BD}  & Base de dados\\
+    \textbf{SQL} & Structured Query Language\\
+    \textbf{IMC} & Índice de Massa Corporal\\
+    \textbf{1FN} & Primeira Forma Normal\\
+    \textbf{2FN} & Segunda Forma Normal\\
+    \textbf{3FN} & Terceira Forma Normal\\
+    \textbf{NN}  & Não Nulo
+    \end{tabular}
+\end{table}
+
+
+
+\bibliographystyle{alpha}
+\bibliography{bibs/bibliografia}
+\addcontentsline{toc}{chapter}{Bibliografia}
+
+\end{document}

@@ -1,0 +1,31 @@
+\chapter{Modelação Lógica}
+
+% tirar isto? ou é melhor deixar e tentar incorporar?
+%\section{Construção e validação do modelo de dados lógico}
+
+Nesta capítulo, traduzimos o modelo concetual (fig. \ref{fig:concetual}) num modelo de dados lógico adequado aos dados do ginásio. Para tal, seguimos o processo descrito em \cite{dbsys}.
+
+\input{modelacao_logica/relacoes.tex}
+
+\section{Desenho do modelo lógico}
+
+A conversão das relações derivadas anteriormente resultou no modelo lógico representado na figura \ref{fig:mod_logico}.
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{modelacao_logica/logicoBR.png}
+\caption{Modelo Lógico}
+\label{fig:mod_logico}
+\end{center}
+\end{figure}
+
+
+\input{modelacao_logica/normalizacao.tex}
+
+\input{modelacao_logica/interrogacoes.tex}
+
+\input{modelacao_logica/transacoes.tex}
+
+\section{Revisão do modelo lógico com o utilizador}
+
+Após a finalização do modelo lógico, este foi apresentado ao cliente numa reunião, onde foi analisado em conjunto com este, para se determinar se o modelo realmente corresponde à realidade do ginásio. O cliente demonstrou-se bastante satisfeito com o resultado e este modelo lógico foi aprovado.
