@@ -1,2 +1,2 @@
 * linguist-vendored
-*.mySql linguist-vendored=false
+*.java linguist-vendored=false
