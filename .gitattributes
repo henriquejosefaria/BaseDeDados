@@ -1,0 +1,2 @@
+* linguist-vendored
+*.mySql linguist-vendored=false
